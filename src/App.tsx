@@ -1,31 +1,60 @@
-import "./App.css";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { AppDispatch } from "./components/redux/store/reduxStore";
+import {
+  BannerFilmData,
+  fetchRecomendetFilmData,
+  fetchTopFilmData,
+  premieresFilmData,
+} from "./components/redux/reducers/reduxReducers";
+import Layout from "./components/layout";
 
-import { Header } from "./components/ui/header/header";
 import { HelloPage } from "./components/ui/helloPage/helloPage";
 import { ThemeContextProvider } from "./components/themeContext/themes";
 import { CurrrentFilm } from "./components/ui/currentFilm/currentFilm";
 import { LoginPage } from "./components/ui/loginPage/loginPage";
-import "./components/ui/loginPage/loginPage.css";
+
 import { Empty } from "./components/ui/empty/empty";
 import { Find } from "./components/ui/find/find";
 import { About } from "./components/ui/about/about";
+import { AuthContextProvider } from "./components/authContext/authContext";
+
+import { Premium } from "./components/ui/premium/premium";
+
+import "./components/ui/loginPage/loginPage.css";
 
 function App() {
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(BannerFilmData());
+    dispatch(premieresFilmData());
+    setTimeout(() => {
+      dispatch(fetchTopFilmData());
+      dispatch(fetchRecomendetFilmData());
+    }, 1000);
+  }, []);
+
   return (
-    <ThemeContextProvider>
-      <Router>
-        <Header />
-        <Routes>
-          <Route path="/" element={<HelloPage />} />
-          <Route path="/film/:id" element={<CurrrentFilm />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/find" element={<Find />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/*" element={<Empty />} />
-        </Routes>
-      </Router>
-    </ThemeContextProvider>
+    <AuthContextProvider>
+      <ThemeContextProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<HelloPage />} />
+              <Route path="film/:id" element={<CurrrentFilm />} />
+              <Route path="login" element={<LoginPage />} />
+              <Route path="find/:search" element={<Find />} />
+              <Route path="about" element={<About />} />
+              <Route path="premium" element={<Premium />} />
+
+              <Route path="*" element={<Empty />} />
+            </Route>
+          </Routes>
+        </Router>
+      </ThemeContextProvider>
+    </AuthContextProvider>
   );
 }
 

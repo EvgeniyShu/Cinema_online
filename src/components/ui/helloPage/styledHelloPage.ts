@@ -1,10 +1,6 @@
 import styled from "styled-components";
 import { Theme } from "../../themeContext/themes";
 
-interface FilmRateProps {
-  rate: number;
-}
-
 interface HelloPageSectionProps {
   themeStyles: Theme;
 }
@@ -23,7 +19,7 @@ interface FilmRecomendationsProps {
 
 export const HelloPageSection = styled.div<HelloPageSectionProps>`
   background-color: ${({ themeStyles }) => themeStyles.background};
-  width: 100vw;
+
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -35,7 +31,7 @@ export const HelloPageSection = styled.div<HelloPageSectionProps>`
 export const BannerWrap = styled.div`
   padding-top: 80px;
   background-color: #000;
-  width: 100vw;
+  width: 100%;
   height: 70vh;
   box-sizing: border-box;
 `;
@@ -43,11 +39,10 @@ export const BannerWrap = styled.div`
 export const FilmOffer = styled.div<FilmOfferProps>`
   margin-top: 50px;
   background-color: ${({ themeStyles }) => themeStyles.background};
-  border: 1px solid ${({ themeStyles }) => themeStyles.text};
-  padding: 10px;
+
   border-radius: 8px;
   width: 75vw;
-  height: 380px;
+  min-height: 390px;
   overflow: hidden;
 
   ::-webkit-scrollbar {
@@ -68,42 +63,40 @@ export const FilmOffer = styled.div<FilmOfferProps>`
   ::-webkit-scrollbar-corner {
     background-color: ${({ themeStyles }) => themeStyles.text};
   }
+
+  @media (width < 600px) {
+    min-height: 101vh;
+  }
 `;
 
 export const FilmRecomendations = styled.div<FilmRecomendationsProps>`
   width: 100%;
   height: 360px;
-  padding: 10px;
+  padding: 20px;
   box-sizing: border-box;
   background-color: none;
   display: flex;
+  justify-content: center;
   gap: 20px;
   overflow-x: scroll;
   box-sizing: border-box;
+
+  @media (width < 600px) {
+    height: 100vh;
+    flex-direction: column;
+    padding: 0px;
+
+    overflow-x: visible;
+    overflow-y: scroll;
+  }
 `;
 
-export const FilmRecomendationsImg = styled.img`
-  border-radius: 10px;
-  width: 150px;
-  height: 220px;
-  position: relative;
-  cursor: pointer;
-`;
+export const CardSize = styled.div`
+  width: 200px;
+  height: 200px;
 
-export const FilmText = styled.div<FilmTextProps>`
-  width: 150px;
-  height: 20px;
-  color: ${({ themeStyles }) => themeStyles.text};
-  margin: 0;
-  padding: 0;
-`;
-
-export const FilmRate = styled.div<FilmRateProps>`
-  padding: 2px;
-  border-radius: 3px;
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  background-color: ${({ rate }) =>
-    rate > 8 ? "green" : rate >= 6 ? "orange" : rate >= 4 ? "yelloy" : "red"};
+  @media (width < 600px) {
+    width: calc(100% - 150px);
+    height: 40vh;
+  }
 `;

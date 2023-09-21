@@ -42,8 +42,8 @@ export const Themes: ThemesType = {
     text: Colors.Orange,
     color: Colors.Orange,
     background: Colors.DARK,
-    fontSize: "14px",
-    linear: "linear-gradient(to bottom, black 0%, transparent 13%)",
+    fontSize: "20px",
+    linear: "linear-gradient(to bottom, black 0%, transparent 130%)",
   },
 };
 

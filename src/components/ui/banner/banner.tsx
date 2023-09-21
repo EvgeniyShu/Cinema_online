@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { FilmProps } from "./filmProps";
+import { Link } from "react-router-dom";
+import { useAppSelector } from "../../redux/store/reduxStore";
 import {
   BunnerC,
   BunnerFilmImg,
@@ -8,32 +8,20 @@ import {
   RightScrollButton,
   Window,
 } from "./styledBanner";
-import { Link } from "react-router-dom";
+
 import {
   InitialContextProps,
   useThemeContext,
 } from "../../themeContext/themes";
 
 export const Banner = () => {
-  const [films, setFilms] = useState<Array<FilmProps>>([]);
   const themeContextData: InitialContextProps = useThemeContext();
 
-  const topFilmsData = () => {
-    fetch(
-      "https://kinopoiskapiunofficial.tech/api/v2.2/films/top?type=TOP_AWAIT_FILMS&page=1",
-      {
-        method: "GET",
-        headers: {
-          "X-API-KEY": "992d39b4-9cf2-4a5a-b0f2-3c3fa2df9f90",
-          "Content-Type": "application/json",
-        },
-      }
-    )
-      .then((response) => response.json())
-      .then((json) => {
-        setFilms(json.films);
-      });
-  };
+  const {
+    BannerFilmData: films,
+    error,
+    loading,
+  } = useAppSelector((state) => state);
 
   const handleMouseEnter = (event: any) => {
     event.target.style.height = "300px";
@@ -65,12 +53,11 @@ export const Banner = () => {
       ?.scrollBy({ left: distance, behavior: "smooth" });
   };
 
-  useEffect(() => {
-    topFilmsData();
-  }, []);
-
   return (
-    <BunnerC id="background" backgroundImg={films[0]?.posterUrl}>
+    <BunnerC
+      id="background"
+      backgroundImg={films.length ? films[0].posterUrl : "black"}
+    >
       <FilmImgList>
         <LeftScrollButton
           onClick={() => scrollContainerBy(-400)}

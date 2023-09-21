@@ -4,9 +4,6 @@ import { Theme } from "../../themeContext/themes";
 interface SectionHeaderProps {
   theme: Theme;
 }
-interface CustomInputProps {
-  theme: Theme;
-}
 
 interface MenuProps {
   theme: Theme;
@@ -15,7 +12,7 @@ interface MenuProps {
 export const SectionHeader = styled.div<SectionHeaderProps>`
   width: 100%;
   background-color: ${(props) => props.theme.background};
-  position: fixed;
+
   top: 0;
   left: 0;
   z-index: 10;
@@ -26,19 +23,10 @@ export const SectionHeader = styled.div<SectionHeaderProps>`
   padding: 10px 30px;
   box-sizing: border-box;
   color: ${(props) => props.theme.color};
-`;
-
-export const CustomInput = styled.div<CustomInputProps>`
-  width: 40%;
-  height: 50px;
-  border-radius: 25px;
-  border: 2px solid ${(props) => props.theme.text};
-  background-color: ${(props) => props.theme.background};
-  color: ${(props) => props.theme.text};
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
+  @media (width < 380px) {
+    padding: 10px;
+    gap: 5px;
+  }
 `;
 
 export const Menu = styled.div<MenuProps>`
@@ -55,4 +43,44 @@ export const Menu = styled.div<MenuProps>`
   gap: 50px;
   align-items: center;
   justify-content: center;
+  @media (width < 640px) {
+    flex-direction: column;
+    height: 100vh;
+    background-color: ${(props) => props.theme.background};
+  }
+`;
+
+export const Wrapper = styled.div`
+  display: flex;
+  gap: 50px;
+
+  @media (width < 800px) {
+    gap: 20px;
+  }
+  @media (width < 600px) {
+    gap: 10px;
+  }
+  @media (width < 380px) {
+    gap: 2px;
+  }
+`;
+
+export const LogoWrapper = styled.div`
+  display: flex;
+  gap: 5px;
+  @media (width < 380px) {
+    gap: 2px;
+  }
+`;
+
+export const LogoTextWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 19px;
+  @media (width < 380px) {
+    gap: 2px;
+  }
 `;

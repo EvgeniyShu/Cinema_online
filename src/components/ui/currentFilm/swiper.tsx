@@ -83,9 +83,16 @@ export default function BasicTabs({ children }: BasicTabsProps) {
       <CustomTabPanel value={value} index={1}>
         <div>{children[1]}</div>
       </CustomTabPanel>
-      <CustomTabPanel value={value} index={2}>
-        Item Three
-      </CustomTabPanel>
+      <div
+        style={{
+          background: `linear-gradient(to bottom, ${themeContextData.themeStyle.background} 50%, transparent 130%)`,
+          borderRadius: 10,
+        }}
+      >
+        <CustomTabPanel value={value} index={2}>
+          <div>{children[2]}</div>
+        </CustomTabPanel>
+      </div>
     </Box>
   );
 }

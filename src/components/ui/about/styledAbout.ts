@@ -7,7 +7,7 @@ interface SectionAboutProps {
 
 export const SectionAbout = styled.div<SectionAboutProps>`
   width: 100vw;
-  height: 100vh;
+  height: calc(100vh - 100px);
   font-size: ${({ themeStyles }) => themeStyles.fontSize};
   background: ${({ themeStyles }) => themeStyles.background};
   color: ${({ themeStyles }) => themeStyles.text};

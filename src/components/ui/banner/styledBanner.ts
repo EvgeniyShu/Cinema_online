@@ -31,6 +31,7 @@ export const FilmImgList = styled.div`
 
 export const Window = styled.div`
   display: flex;
+  align-items: flex-end;
   gap: 20px;
   padding-top: 80px;
   overflow-x: auto;

@@ -1,7 +1,10 @@
 .container {
-  margin: 0;
   padding: 0;
-  max-width: 1320px;
-  height: 100vh;
+  max-width: 1920px;
+  margin: 0 auto;
   width: 100vw;
+  overflow: hidden;
+  font-family: "Pacifico", cursive;
+  font-size: 32;
+  background-color: black;
 }

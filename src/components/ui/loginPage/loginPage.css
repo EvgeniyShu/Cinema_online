@@ -4,17 +4,42 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: "Sofia Sans", sans-serif;
 }
 .form {
-  border-radius: 10px;
   background-color: none;
-  width: 80vw;
-  margin: 100px auto 20px auto;
+  width: 40vw;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  @media (width < 800px) {
+    width: 80vw;
+  }
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   border: 3px solid #000;
+  border-radius: 10px;
+
+  @media (width < 800px) {
+    flex-direction: column;
+  }
+}
+
+.premium {
+  width: 40vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  @media (width < 800px) {
+    width: 80vw;
+  }
 }
 .error {
   color: red;
@@ -33,6 +58,9 @@
   border: none;
   color: white;
   border-bottom: 1px solid #e6f7e7;
+  @media (width < 1000px) {
+    width: 80%;
+  }
 }
 
 input:-webkit-autofill {
