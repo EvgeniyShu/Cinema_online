@@ -11,6 +11,7 @@ interface MenuProps {
 
 export const SectionHeader = styled.div<SectionHeaderProps>`
   width: 100%;
+  height: 80px;
   background-color: ${(props) => props.theme.background};
 
   top: 0;
@@ -31,7 +32,7 @@ export const SectionHeader = styled.div<SectionHeaderProps>`
 
 export const Menu = styled.div<MenuProps>`
   width: 100vw;
-  height: 50px;
+  height: 80px;
   position: fixed;
   top: 70px;
   left: 0;

@@ -39,7 +39,7 @@ export const RotateCard = (props: RotateCardProps) => {
           backgroundSize: "cover",
           position: "absolute",
           left: "0",
-          margin: 20,
+
           borderRadius: 10,
         }}
       >
@@ -60,7 +60,7 @@ export const RotateCard = (props: RotateCardProps) => {
 
           position: "absolute",
           left: "0",
-          margin: 20,
+
           display: "flex",
           alignItems: "center",
           justifyContent: "center",

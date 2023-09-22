@@ -9,14 +9,9 @@ export const Themebutton = styled.button<MyButtonProps>`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 5px;
-
-  width: 80px;
-  height: 40px;
   background-color: ${({ themeStyles }) => themeStyles.background};
-  color: ${({ themeStyles }) => themeStyles.text};
-  font-size: ${({ themeStyles }) => themeStyles.fontSize};
-  border-color: ${({ themeStyles }) => themeStyles.text};
-  border-radius: 7px;
+  border: 3px solid ${({ themeStyles }) => themeStyles.text};
+  border-radius: 50%;
+  padding: 5px 6.5px;
   cursor: pointer;
 `;

@@ -41,14 +41,19 @@ export const FilmDescription = styled.div<FilmDescriptionProps>`
   background: ${({ themeStyles }) => themeStyles.linear},
     url("${(props) => props.background}") 50% 50% no-repeat;
   background-size: cover, cover;
+  @media (width < 1050px) {
+    background: ${({ themeStyles }) => themeStyles.linear},
+      ${({ themeStyles }) => themeStyles.text};
+  }
 `;
 
 export const Wrapper = styled.div`
   display: flex;
   width: 90vw;
   box-sizing: border-box;
-  @media (width < 1050px) {
+  @media (width < 740px) {
     flex-direction: column;
+    align-items: center;
   }
 `;
 
@@ -57,7 +62,21 @@ export const CurrentFilmImg = styled.img`
   border: 0px solid #000;
   border-radius: 10px;
   @media (width < 1050px) {
-    margin: 0 10px;
+    margin-left: 20px;
+    margin: 0;
+    padding: 10px;
+    height: 50vh;
+    width: 30vw;
+  }
+  @media (width < 740px) {
+    height: 50vh;
+    width: 40vw;
+  }
+  @media (width < 600px) {
+    width: 80%;
+  }
+  @media (width < 400px) {
+    width: 90%;
   }
 `;
 
@@ -67,7 +86,15 @@ export const CurrentFilmText = styled.div<CurrentFilmTextPops>`
   text-align: right;
   background: ${({ themeStyles }) => themeStyles.linear};
   @media (width < 1050px) {
-    margin: 0 10px;
+    margin-right: 20px;
+    padding: 10px;
+    margin: 0;
+    height: 50vh;
+    width: 65vw;
+  }
+  @media (width < 740px) {
+    height: 60vh;
+    width: 90%;
   }
 `;
 
@@ -110,7 +137,8 @@ export const SimilarFilmsImg = styled.img`
 `;
 
 export const BasicTabsrap = styled.div`
-  width: 80vw;
+  width: 83vw;
+
   margin: 10px auto;
   box-sizing: border-box;
   color: orange;
@@ -124,9 +152,8 @@ export const Player = styled.div<PlayerPops>`
   display: flex;
   align-items: center;
   justify-content: center;
-  &:hover {
-    border: 1px solid ${({ themeStyles }) => themeStyles.text};
-  }
+
+  border: 1px solid ${({ themeStyles }) => themeStyles.text};
 `;
 
 export const SliderWrapper = styled.div`

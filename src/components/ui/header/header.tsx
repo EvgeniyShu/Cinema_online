@@ -21,7 +21,7 @@ export const Header = () => {
   const themeContextData: InitialContextProps = useThemeContext();
   const logo = require("./favicon.png");
   const [activeMenu, setActiveMenu] = useState(false);
-  const [activeSearch, setActiveSearch] = useState(true);
+  const [activeSearch, setActiveSearch] = useState(false);
 
   const changeMenu = () => {
     setActiveMenu((prev) => !prev);
@@ -50,13 +50,15 @@ export const Header = () => {
         </Wrapper>
 
         {activeSearch ? <CustomInputElement /> : <></>}
-        <SearchButton
-          theme={themeContextData.themeStyle}
-          onClick={() => changeSearch()}
-        >
-          Поиск
-        </SearchButton>
-        <ThemeButton />
+        <div style={{ display: "flex", gap: 20 }}>
+          <SearchButton
+            theme={themeContextData.themeStyle}
+            onClick={() => changeSearch()}
+          >
+            Поиск
+          </SearchButton>
+          <ThemeButton />
+        </div>
       </SectionHeader>
       {activeMenu ? (
         <Menu theme={themeContextData.themeStyle}>

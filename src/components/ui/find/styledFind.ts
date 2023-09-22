@@ -7,6 +7,7 @@ interface SectionFindProps {
 
 export const SectionFind = styled.div<SectionFindProps>`
   width: 100vw;
+  height: 100%;
   padding: 20px 0;
 
   font-size: ${({ themeStyles }) => themeStyles.fontSize};
@@ -16,6 +17,7 @@ export const SectionFind = styled.div<SectionFindProps>`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  overflow-y: scroll;
 `;
 
 export const SectionFindWrapper = styled.div`

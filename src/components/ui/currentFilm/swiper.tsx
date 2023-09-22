@@ -53,30 +53,54 @@ export default function BasicTabs({ children }: BasicTabsProps) {
   };
 
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box
+      sx={{
+        width: "100%",
+      }}
+    >
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs
           value={value}
           onChange={handleChange}
           aria-label="basic tabs example"
+          indicatorColor="secondary"
         >
           <Tab
-            style={{ color: themeContextData.themeStyle.text }}
+            style={{
+              color: themeContextData.themeStyle.text,
+              fontSize: 10,
+              background: themeContextData.themeStyle.background,
+              padding: 5,
+              fontFamily: '"Sofia Sans", sans-serif',
+            }}
             label="Смотреть онлайн"
             {...a11yProps(0)}
           />
           <Tab
-            style={{ color: themeContextData.themeStyle.text }}
+            style={{
+              color: themeContextData.themeStyle.text,
+              fontSize: 10,
+              background: themeContextData.themeStyle.background,
+              padding: 5,
+              fontFamily: '"Sofia Sans", sans-serif',
+            }}
             label="Похожие фильмы"
             {...a11yProps(1)}
           />
           <Tab
-            style={{ color: themeContextData.themeStyle.text }}
+            style={{
+              color: themeContextData.themeStyle.text,
+              fontSize: 10,
+              background: themeContextData.themeStyle.background,
+              padding: 5,
+              fontFamily: '"Sofia Sans", sans-serif',
+            }}
             label="Постеры к фильму"
             {...a11yProps(2)}
           />
         </Tabs>
       </Box>
+
       <CustomTabPanel value={value} index={0}>
         <div>{children[0]}</div>
       </CustomTabPanel>

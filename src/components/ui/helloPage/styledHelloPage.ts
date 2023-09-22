@@ -70,22 +70,17 @@ export const FilmOffer = styled.div<FilmOfferProps>`
 `;
 
 export const FilmRecomendations = styled.div<FilmRecomendationsProps>`
-  width: 100%;
-  height: 360px;
-  padding: 20px;
-  box-sizing: border-box;
-  background-color: none;
   display: flex;
-  justify-content: center;
   gap: 20px;
+  height: 300px;
+  padding: 20px 20px 40px 20px;
   overflow-x: scroll;
-  box-sizing: border-box;
 
   @media (width < 600px) {
     height: 100vh;
     flex-direction: column;
     padding: 0px;
-
+    align-items: center;
     overflow-x: visible;
     overflow-y: scroll;
   }
@@ -93,10 +88,15 @@ export const FilmRecomendations = styled.div<FilmRecomendationsProps>`
 
 export const CardSize = styled.div`
   width: 200px;
-  height: 200px;
+  height: 300px;
+  position: relative;
 
   @media (width < 600px) {
-    width: calc(100% - 150px);
-    height: 40vh;
+    width: 250px;
+    height: 400px;
+  }
+  @media (width < 400px) {
+    width: 200px;
+    height: 300px;
   }
 `;

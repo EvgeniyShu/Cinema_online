@@ -26,7 +26,7 @@ export const CustomInputWrapper = styled.div<CustomInputWrapperProps>`
   height: 50px;
   border-radius: 25px;
   border: 2px solid ${(props) => props.theme.text};
-  background-color: ${(props) => props.theme.background};
+  background-color: ${(props) => props.theme.body};
   color: ${(props) => props.theme.text};
   display: flex;
   flex-direction: row;
@@ -35,6 +35,7 @@ export const CustomInputWrapper = styled.div<CustomInputWrapperProps>`
   padding: 0 10px;
   @media (width < 890px) {
     position: absolute;
+
     z-index: 6;
     margin: 0 auto;
     width: calc(100% - 84px);
@@ -74,6 +75,7 @@ export const CustomInput = styled.input<CustomInputProps>`
 export const SearchButton = styled.div<SearchButtonProps>`
   margin: 0px auto 0px auto;
   color: ${({ theme }) => theme.text};
+
   cursor: pointer;
   padding: 10px;
   border: none;
@@ -82,7 +84,6 @@ export const SearchButton = styled.div<SearchButtonProps>`
   font-size: ${({ theme }) => theme.fontSize};
   border-radius: 3px;
   transition: all 0.1s ease-out;
-  display: none;
 
   &:hover {
     outline-offset: 2px;

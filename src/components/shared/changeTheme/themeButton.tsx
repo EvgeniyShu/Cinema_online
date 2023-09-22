@@ -30,7 +30,6 @@ export const ThemeButton = () => {
           <DarkModeIcon color="warning" />
         )}
       </div>
-      <div>{themeContextData.theme}</div>
     </Themebutton>
   );
 };
