@@ -41,7 +41,7 @@ export const CurrrentFilm = () => {
     setTimeout(() => {
       dispatch(similarFilmsData(Number(params.id)));
     }, 1000);
-  }, []);
+  }, [params.id]);
 
   const {
     currentFilm: currentFilmArray,
@@ -75,6 +75,7 @@ export const CurrrentFilm = () => {
         <>
           <p>{currentFilm?.slogan}</p>
           <FilmDescription
+            key={params.id}
             themeStyles={themeContextData.themeStyle}
             background={
               poster.length

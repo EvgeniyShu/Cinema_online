@@ -7,7 +7,7 @@ interface RaitingProps {
 }
 
 interface BunnerCProps {
-  backgroundImg: string;
+  backgroundimg: string;
 }
 
 interface ScrollButtonProps {
@@ -16,9 +16,9 @@ interface ScrollButtonProps {
 export const BunnerC = styled.div<BunnerCProps>`
   max-width: 100vw;
   height: 100%;
-  background: url("${(props) => props.backgroundImg}") 50% 50% no-repeat,
+  background: url("${(props) => props.backgroundimg}") 50% 50% no-repeat,
     linear-gradient(to bottom, black 0%, transparent 250%),
-    url("${(props) => props.backgroundImg}") 50% 50% no-repeat;
+    url("${(props) => props.backgroundimg}") 50% 50% no-repeat;
   background-size: contain, cover, cover;
   display: flex;
   flex-direction: column-reverse;

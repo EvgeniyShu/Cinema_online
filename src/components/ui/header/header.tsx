@@ -2,6 +2,8 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import LunchDiningIcon from "@mui/icons-material/LunchDining";
+import SearchIcon from "@mui/icons-material/Search";
+import SearchOffIcon from "@mui/icons-material/SearchOff";
 import {
   LogoTextWrapper,
   LogoWrapper,
@@ -40,8 +42,11 @@ export const Header = () => {
           ) : (
             <MenuIcon fontSize="large" onClick={changeMenu} />
           )}
-          <LogoWrapper>
-            <img src={logo} alt="logo" />
+
+          <LogoWrapper theme={themeContextData.themeStyle}>
+            <NavLink to={"/"}>
+              <img src={logo} alt="logo" />
+            </NavLink>
             <LogoTextWrapper>
               <p style={{ margin: 0 }}>Cinema</p>
               <p style={{ margin: 0 }}>Online</p>
@@ -55,7 +60,13 @@ export const Header = () => {
             theme={themeContextData.themeStyle}
             onClick={() => changeSearch()}
           >
-            Поиск
+            <div style={{ marginTop: 5, marginLeft: 5 }}>
+              {activeSearch ? (
+                <SearchOffIcon fontSize="large" />
+              ) : (
+                <SearchIcon fontSize="large" />
+              )}
+            </div>
           </SearchButton>
           <ThemeButton />
         </div>

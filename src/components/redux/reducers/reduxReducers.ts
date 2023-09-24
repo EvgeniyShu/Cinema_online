@@ -20,7 +20,7 @@ export interface InitialStateProps {
   TopFilmData: FilmProps[];
   Favorite: Array<any>;
   currentFilm: currentFilmProps[];
-  recomendetFilm: RecomendetFilm[];
+  recomendetFilm: { films: RecomendetFilm[]; pagesCount: number };
   posterFilm: Array<PosterProps>;
   premieresFilm: PremierFilm[];
   similarFilm: any[];
@@ -32,7 +32,7 @@ const initialState: InitialStateProps = {
   BannerFilmData: [],
   TopFilmData: [],
   premieresFilm: [],
-  recomendetFilm: [],
+  recomendetFilm: { films: [], pagesCount: 0 },
   Favorite: [],
   currentFilm: [],
   similarFilm: [],
@@ -83,12 +83,17 @@ export const fetchTopFilmData = createAsyncThunk(
 
 export const fetchRecomendetFilmData = createAsyncThunk(
   "films/fetchRecomendetFilms",
-  async (_, { dispatch, rejectWithValue }) => {
+  async (id: number, { dispatch, rejectWithValue }) => {
     try {
       const result: any = await Api.fetchData(
-        "/top?type=TOP_250_BEST_FILMS&page=10"
+        `/top?type=TOP_250_BEST_FILMS&page=${id}`
       );
-      dispatch(fetchRecomendetFilms(result.dataArray.films));
+      dispatch(
+        fetchRecomendetFilms({
+          film: result.dataArray.films,
+          allPages: result.dataArray.pagesCount,
+        })
+      );
     } catch (error: any) {
       return rejectWithValue(error.message);
     }
@@ -149,9 +154,10 @@ export const filmSlice = createSlice({
     },
     fetchRecomendetFilms: (
       state,
-      action: PayloadAction<Array<RecomendetFilm>>
+      action: PayloadAction<{ film: Array<RecomendetFilm>; allPages: number }>
     ) => {
-      state.recomendetFilm = action.payload;
+      state.recomendetFilm.films = action.payload.film;
+      state.recomendetFilm.pagesCount = action.payload.allPages;
     },
     fetchCurrentFilm: (state, action: PayloadAction<currentFilmProps>) => {
       state.currentFilm.length = 0;
@@ -213,6 +219,17 @@ export const filmSlice = createSlice({
         state.loading = false;
       })
       .addCase(similarFilmsData.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(fetchRecomendetFilmData.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchRecomendetFilmData.fulfilled, (state, action: any) => {
+        state.loading = false;
+      })
+      .addCase(fetchRecomendetFilmData.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       }),

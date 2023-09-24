@@ -9,6 +9,10 @@ interface MenuProps {
   theme: Theme;
 }
 
+interface LogoWrapperProps {
+  theme: Theme;
+}
+
 export const SectionHeader = styled.div<SectionHeaderProps>`
   width: 100%;
   height: 80px;
@@ -23,6 +27,8 @@ export const SectionHeader = styled.div<SectionHeaderProps>`
   justify-content: space-between;
   padding: 10px 30px;
   box-sizing: border-box;
+  margin-bottom: 42px;
+
   color: ${(props) => props.theme.color};
   @media (width < 380px) {
     padding: 10px;
@@ -33,7 +39,7 @@ export const SectionHeader = styled.div<SectionHeaderProps>`
 export const Menu = styled.div<MenuProps>`
   width: 100vw;
   height: 80px;
-  position: fixed;
+  position: absolute;
   top: 70px;
   left: 0;
   z-index: 10;
@@ -66,9 +72,11 @@ export const Wrapper = styled.div`
   }
 `;
 
-export const LogoWrapper = styled.div`
+export const LogoWrapper = styled.div<LogoWrapperProps>`
   display: flex;
   gap: 5px;
+  color: ${(props) => props.theme.text};
+
   @media (width < 380px) {
     gap: 2px;
   }
@@ -80,6 +88,7 @@ export const LogoTextWrapper = styled.div`
   align-items: center;
   justify-content: center;
   gap: 5px;
+
   font-size: 19px;
   @media (width < 380px) {
     gap: 2px;

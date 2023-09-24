@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AppDispatch } from "./components/redux/store/reduxStore";
 import {
   BannerFilmData,
-  fetchRecomendetFilmData,
   fetchTopFilmData,
   premieresFilmData,
 } from "./components/redux/reducers/reduxReducers";
@@ -32,7 +31,6 @@ function App() {
     dispatch(premieresFilmData());
     setTimeout(() => {
       dispatch(fetchTopFilmData());
-      dispatch(fetchRecomendetFilmData());
     }, 1000);
   }, []);
 
@@ -48,7 +46,6 @@ function App() {
               <Route path="find/:search" element={<Find />} />
               <Route path="about" element={<About />} />
               <Route path="premium" element={<Premium />} />
-
               <Route path="*" element={<Empty />} />
             </Route>
           </Routes>

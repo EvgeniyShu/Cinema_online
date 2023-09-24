@@ -73,16 +73,15 @@ export const CustomInput = styled.input<CustomInputProps>`
 `;
 
 export const SearchButton = styled.div<SearchButtonProps>`
-  margin: 0px auto 0px auto;
   color: ${({ theme }) => theme.text};
-
+  width: 44px;
+  height: 44px;
+  line-height: 44px;
   cursor: pointer;
-  padding: 10px;
   border: none;
-  outline: 1px solid ${({ theme }) => theme.text};
+  outline: 3px solid ${({ theme }) => theme.text};
   outline-offset: -2px;
-  font-size: ${({ theme }) => theme.fontSize};
-  border-radius: 3px;
+  border-radius: 50%;
   transition: all 0.1s ease-out;
 
   &:hover {

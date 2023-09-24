@@ -69,7 +69,7 @@ export const Find = () => {
   };
   useEffect(() => {
     filteredFilmsData();
-  }, []);
+  }, [find, select]);
 
   console.log(searchResult);
 

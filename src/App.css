@@ -2,9 +2,12 @@
   padding: 0;
   max-width: 1920px;
   margin: 0 auto;
-  width: 100vw;
+  width: 98.6vw;
   overflow: hidden;
   font-family: "Pacifico", cursive;
   font-size: 32;
   background-color: black;
+  @media (width < 1181px) {
+    width: 100vw;
+  }
 }

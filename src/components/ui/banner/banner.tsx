@@ -56,7 +56,7 @@ export const Banner = () => {
   return (
     <BunnerC
       id="background"
-      backgroundImg={films.length ? films[0].posterUrl : "black"}
+      backgroundimg={films.length ? films[0].posterUrl : "black"}
     >
       <FilmImgList>
         <LeftScrollButton
