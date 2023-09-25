@@ -9,11 +9,13 @@ import {
 import {
   BannerFilmsProps,
   FilmProps,
+  FindDataProps,
   PosterProps,
   PremierFilm,
   RecomendetFilm,
   currentFilmProps,
 } from "./propsReducers";
+import axios from "axios";
 
 export interface InitialStateProps {
   BannerFilmData: BannerFilmsProps[];
@@ -24,6 +26,7 @@ export interface InitialStateProps {
   posterFilm: Array<PosterProps>;
   premieresFilm: PremierFilm[];
   similarFilm: any[];
+  findResults: { films: FindDataProps[]; pagesCount: number };
   loading: boolean;
   error: string | null | unknown;
 }
@@ -37,6 +40,7 @@ const initialState: InitialStateProps = {
   currentFilm: [],
   similarFilm: [],
   posterFilm: [],
+  findResults: { films: [], pagesCount: 0 },
   loading: false,
   error: null,
 };
@@ -136,6 +140,24 @@ export const similarFilmsData = createAsyncThunk(
   }
 );
 
+export const fetchFindResultsData = createAsyncThunk(
+  "films/fetchFindResultsData",
+  async (url: RequestInfo, { dispatch, rejectWithValue }) => {
+    try {
+      const result: any = await axios.get(`${url}`);
+      console.log(result);
+      dispatch(
+        fetchRecomendetFilms({
+          film: result.dataArray.films,
+          allPages: result.dataArray.pagesCount,
+        })
+      );
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 export const filmSlice = createSlice({
   name: "films",
   initialState,
@@ -158,6 +180,13 @@ export const filmSlice = createSlice({
     ) => {
       state.recomendetFilm.films = action.payload.film;
       state.recomendetFilm.pagesCount = action.payload.allPages;
+    },
+    fetchFindFilms: (
+      state,
+      action: PayloadAction<{ film: Array<FindDataProps>; allPages: number }>
+    ) => {
+      state.findResults.films = action.payload.film;
+      state.findResults.pagesCount = action.payload.allPages;
     },
     fetchCurrentFilm: (state, action: PayloadAction<currentFilmProps>) => {
       state.currentFilm.length = 0;
@@ -245,6 +274,7 @@ export const {
   fetchPosterOfFilm,
   fetchPremieresFilms,
   fetchRecomendetFilms,
+  fetchFindFilms,
 } = filmSlice.actions;
 
 export const filmsReducer = filmSlice.reducer;

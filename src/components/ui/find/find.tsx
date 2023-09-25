@@ -3,19 +3,23 @@ import {
   InitialContextProps,
   useThemeContext,
 } from "../../themeContext/themes";
-import { SectionFind, SectionFindImg, SectionFindWrapper } from "./styledFind";
+import { SectionFind, SectionFindWrapper } from "./styledFind";
 import { useEffect, useState } from "react";
-import { FilmProps } from "../banner/filmProps";
 import { FindDataProps } from "./findProps";
 import { RotateCard } from "../../shared/rotateCard/rotate";
+import { useDispatch } from "react-redux";
+import { fetchFindResultsData } from "../../redux/reducers/reduxReducers";
+import { AppDispatch } from "../../redux/store/reduxStore";
+import Pagination from "@mui/material/Pagination";
 
 export const Find = () => {
   const themeContextData: InitialContextProps = useThemeContext();
   const dataFromNavigate = useLocation();
+  const dispatch = useDispatch<AppDispatch>();
 
-  interface ISearchProps {}
   const [searchResult, setSearchResult] = useState<Array<FindDataProps>>([]);
-
+  const [pages, setPages] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const { find, select } = dataFromNavigate.state;
 
   const Url = (find: string, select: string): RequestInfo => {
@@ -27,7 +31,7 @@ export const Find = () => {
             result +
             `https://kinopoiskapiunofficial.tech/api/v2.2/films?order=RATING&type=ALL&ratingFrom=0&ratingTo=10&keyword=${encodeURI(
               find
-            )}&page=1`
+            )}&page=${currentPage}`
           );
         }
         case "person": {
@@ -35,20 +39,20 @@ export const Find = () => {
             result +
             `https://kinopoiskapiunofficial.tech/api/v1/persons?name=${encodeURI(
               find
-            )}&page=1`
+            )}&page=${currentPage}`
           );
         }
         case "year": {
           return (
             result +
-            `https://kinopoiskapiunofficial.tech/api/v2.2/films?order=RATING&type=ALL&ratingFrom=0&ratingTo=10&yearFrom=${find}&yearTo=${find}&page=1`
+            `https://kinopoiskapiunofficial.tech/api/v2.2/films?order=RATING&type=ALL&ratingFrom=0&ratingTo=10&yearFrom=${find}&yearTo=${find}&page=${currentPage}`
           );
         }
       }
     } else {
       return (
         result +
-        "https://kinopoiskapiunofficial.tech/api/v2.2/films?order=RATING&type=ALL&ratingFrom=0&ratingTo=10&keyword=%D0%BC%D1%81%D1%82%D0%B8%D1%82%D0%B5%D0%BB%D0%B8&page=1"
+        "https://kinopoiskapiunofficial.tech/api/v2.2/films?order=RATING&type=ALL&ratingFrom=0&ratingTo=10&keyword=%D0%BC%D1%81%D1%82%D0%B8%D1%82%D0%B5%D0%BB%D0%B8&page=${currentPage}"
       );
     }
     return result;
@@ -64,20 +68,37 @@ export const Find = () => {
     })
       .then((response) => response.json())
       .then((json) => {
+        console.log(json);
+        setPages(json.totalPages);
         setSearchResult(json.items);
       });
   };
   useEffect(() => {
     filteredFilmsData();
-  }, [find, select]);
-
-  console.log(searchResult);
+  }, [find, select, currentPage]);
 
   return (
     <SectionFind themeStyles={themeContextData.themeStyle}>
+      <div
+        style={{
+          margin: "10px auto",
+        }}
+      >
+        <Pagination
+          count={pages}
+          variant="outlined"
+          shape="rounded"
+          color="standard"
+          defaultPage={currentPage}
+          onChange={(_, page: number) => setCurrentPage(page)}
+          sx={{
+            bgcolor: themeContextData.themeStyle.body,
+          }}
+        />
+      </div>
       <SectionFindWrapper>
         {searchResult.map((item) => (
-          <div style={{ position: "relative" }}>
+          <div key={item.kinopoiskId} style={{ position: "relative" }}>
             <RotateCard
               backgroundImg={item.posterUrl}
               id={item.kinopoiskId}

@@ -29,7 +29,6 @@ export const HelloPageSection = styled.div<HelloPageSectionProps>`
 `;
 
 export const BannerWrap = styled.div`
-  padding-top: 20px;
   background-color: #000;
   width: 100%;
   height: 70vh;

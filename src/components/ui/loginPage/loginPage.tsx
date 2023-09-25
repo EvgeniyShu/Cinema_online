@@ -60,13 +60,14 @@ export const LoginPage = () => {
               borderColor: themeContextData.themeStyle.text,
               color: themeContextData.themeStyle.text,
               fontSize: themeContextData.themeStyle.fontSize,
+              background: themeContextData.themeStyle.background,
             }}
             className="wrapper"
           >
-            <Form className="form">
+            <Form className="form" style={{}}>
               <img
                 style={{
-                  background: themeContextData.themeStyle.text,
+                  background: themeContextData.themeStyle.body,
                   borderRadius: 50,
                 }}
                 className="logo"

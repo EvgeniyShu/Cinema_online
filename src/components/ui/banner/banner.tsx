@@ -75,6 +75,8 @@ export const Banner = () => {
                 alt={item.posterUrlPreview}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
+                onTouchStart={handleMouseEnter}
+                onTouchEnd={handleMouseLeave}
               />
             </Link>
           ))}

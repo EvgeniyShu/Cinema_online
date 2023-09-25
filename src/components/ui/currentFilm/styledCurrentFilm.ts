@@ -89,11 +89,10 @@ export const CurrentFilmText = styled.div<CurrentFilmTextPops>`
     margin-right: 20px;
     padding: 10px;
     margin: 0;
-    height: 50vh;
+    height: 100%;
     width: 65vw;
   }
   @media (width < 740px) {
-    height: 60vh;
     width: 90%;
   }
 `;

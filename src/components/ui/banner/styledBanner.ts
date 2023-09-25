@@ -1,5 +1,4 @@
 import { styled } from "styled-components";
-import { FilmProps } from "./filmProps";
 import { Theme } from "../../themeContext/themes";
 
 interface RaitingProps {
@@ -16,6 +15,7 @@ interface ScrollButtonProps {
 export const BunnerC = styled.div<BunnerCProps>`
   max-width: 100vw;
   height: 100%;
+  padding-top: 10px;
   background: url("${(props) => props.backgroundimg}") 50% 50% no-repeat,
     linear-gradient(to bottom, black 0%, transparent 250%),
     url("${(props) => props.backgroundimg}") 50% 50% no-repeat;

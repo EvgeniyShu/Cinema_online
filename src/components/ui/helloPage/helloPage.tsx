@@ -129,9 +129,7 @@ export const HelloPage = () => {
                 shape="rounded"
                 color="standard"
                 defaultPage={page}
-                onChange={(event: React.ChangeEvent<unknown>, page: number) =>
-                  setPage(page)
-                }
+                onChange={(_, page: number) => setPage(page)}
                 sx={{
                   bgcolor: themeContextData.themeStyle.body,
                 }}
