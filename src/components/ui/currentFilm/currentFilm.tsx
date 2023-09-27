@@ -23,10 +23,12 @@ import { Slider } from "./slider";
 import { useDispatch } from "react-redux";
 import { AppDispatch, useAppSelector } from "../../redux/store/reduxStore";
 import {
+  addToFavorites,
   currentFilmData,
   posterData,
   similarFilmsData,
 } from "../../redux/reducers/reduxReducers";
+import { CustomButton } from "../../shared/customButton/customButton";
 
 export const CurrrentFilm = () => {
   const themeContextData: InitialContextProps = useThemeContext();
@@ -124,6 +126,12 @@ export const CurrrentFilm = () => {
                 <p>{currentFilm?.description}</p>
               </CurrentFilmText>
             </Wrapper>
+            <CustomButton
+              onClick={() => dispatch(addToFavorites(Number(params.id)))}
+              themeStyles={themeContextData.themeStyle}
+            >
+              Добавить в избранное
+            </CustomButton>
             <BasicTabsrap>
               <BasicTabs>
                 <Player themeStyles={themeContextData.themeStyle}>

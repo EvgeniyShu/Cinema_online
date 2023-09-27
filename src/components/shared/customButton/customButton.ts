@@ -5,8 +5,9 @@ interface CustomLinkMenuProps {
   themeStyles: Theme;
 }
 
-export const CustomButton = styled.div<CustomLinkMenuProps>`
+export const CustomButton = styled.button<CustomLinkMenuProps>`
   margin: 0px auto 0px auto;
+  background: ${({ themeStyles }) => themeStyles.background};
   color: ${({ themeStyles }) => themeStyles.text};
   cursor: pointer;
   padding: 10px;

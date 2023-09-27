@@ -1,18 +1,12 @@
 import SignupSchema from "./validationSchema";
 import { Formik, Form, Field } from "formik";
-
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
-import { orange, blue } from "@mui/material/colors";
-
 import {
   InitialContextProps,
   useThemeContext,
 } from "../../themeContext/themes";
 import { useAuthContext } from "../../authContext/authContext";
+import { CustomButton } from "../../shared/customButton/customButton";
+import UseRadioGroup from "./radioGroup";
 
 export const LoginPage = () => {
   const bg = require("./img/background.webp");
@@ -40,8 +34,9 @@ export const LoginPage = () => {
         onSubmit={(values, { setSubmitting }) => {
           setTimeout(() => {
             authData.login();
-            console.log(authData.userAuth);
-            setSubmitting(false);
+
+            setSubmitting(true);
+            authData.setValues(values);
           }, 400);
         }}
       >
@@ -77,6 +72,10 @@ export const LoginPage = () => {
               <h1>Войти</h1>
               <label htmlFor="firstName">Имя</label>
               <Field
+                style={{
+                  color: themeContextData.themeStyle.text,
+                  borderBottom: `1px solid ${themeContextData.themeStyle.text}`,
+                }}
                 name="firstName"
                 value={values.firstName}
                 onChange={handleChange}
@@ -89,6 +88,10 @@ export const LoginPage = () => {
               <br />
               <label htmlFor="lastName">Фамилия</label>
               <Field
+                style={{
+                  color: themeContextData.themeStyle.text,
+                  borderBottom: `1px solid ${themeContextData.themeStyle.text}`,
+                }}
                 name="lastName"
                 value={values.lastName}
                 onChange={handleChange}
@@ -101,6 +104,10 @@ export const LoginPage = () => {
               <br />
               <label htmlFor="email">Email</label>
               <Field
+                style={{
+                  color: themeContextData.themeStyle.text,
+                  borderBottom: `1px solid ${themeContextData.themeStyle.text}`,
+                }}
                 name="email"
                 type="email"
                 value={values.email}
@@ -114,6 +121,10 @@ export const LoginPage = () => {
               <br />
               <label htmlFor="password">Пароль</label>
               <Field
+                style={{
+                  color: themeContextData.themeStyle.text,
+                  borderBottom: `1px solid ${themeContextData.themeStyle.text}`,
+                }}
                 type="password"
                 name="password"
                 value={values.password}
@@ -129,6 +140,10 @@ export const LoginPage = () => {
               <label htmlFor="confirmPassword">Подтвердите пароль</label>
 
               <Field
+                style={{
+                  color: themeContextData.themeStyle.text,
+                  borderBottom: `1px solid ${themeContextData.themeStyle.text}`,
+                }}
                 type="password"
                 name="confirmPassword"
                 value={values.confirmPassword}
@@ -139,90 +154,18 @@ export const LoginPage = () => {
               {errors.confirmPassword && touched.confirmPassword ? (
                 <div className="error">{errors.confirmPassword}</div>
               ) : null}
-
-              <button
-                style={{
-                  borderColor: themeContextData.themeStyle.text,
-                  background: themeContextData.themeStyle.text,
-                }}
-                className="button"
-                disabled={!isValid || !dirty}
-                type="submit"
-              >
-                Отправить
-              </button>
+              <div style={{ margin: 20 }}>
+                <CustomButton
+                  themeStyles={themeContextData.themeStyle}
+                  disabled={!isValid || !dirty}
+                  type="submit"
+                >
+                  Отправить
+                </CustomButton>
+              </div>
             </Form>
             <div className="premium">
-              <FormControl>
-                <FormLabel id="demo-radio-buttons-group-label"></FormLabel>
-                <RadioGroup
-                  aria-labelledby="demo-radio-buttons-group-label"
-                  defaultValue="60"
-                  name="radio-buttons-group"
-                >
-                  <FormControlLabel
-                    value="60"
-                    control={
-                      <Radio
-                        sx={{
-                          color:
-                            themeContextData.theme === "dark"
-                              ? orange[600]
-                              : blue[300],
-                          "&.Mui-checked": {
-                            color:
-                              themeContextData.theme === "dark"
-                                ? orange[600]
-                                : blue[300],
-                          },
-                        }}
-                      />
-                    }
-                    label="60 дней премиума"
-                  />
-                  <FormControlLabel
-                    value="600"
-                    control={
-                      <Radio
-                        sx={{
-                          color:
-                            themeContextData.theme === "dark"
-                              ? orange[600]
-                              : blue[300],
-                          "&.Mui-checked": {
-                            color:
-                              themeContextData.theme === "dark"
-                                ? orange[600]
-                                : blue[300],
-                          },
-                        }}
-                      />
-                    }
-                    label="600 дней премиума"
-                    color="warning"
-                  />
-                  <FormControlLabel
-                    value="6000"
-                    control={
-                      <Radio
-                        sx={{
-                          color:
-                            themeContextData.theme === "dark"
-                              ? orange[600]
-                              : blue[300],
-                          "&.Mui-checked": {
-                            color:
-                              themeContextData.theme === "dark"
-                                ? orange[600]
-                                : blue[300],
-                          },
-                        }}
-                      />
-                    }
-                    label="6000 дней премиума"
-                  />
-                </RadioGroup>
-              </FormControl>
+              <UseRadioGroup />
             </div>
           </div>
         )}

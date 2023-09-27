@@ -17,11 +17,15 @@ import { LoginPage } from "./components/ui/loginPage/loginPage";
 import { Empty } from "./components/ui/empty/empty";
 import { Find } from "./components/ui/find/find";
 import { About } from "./components/ui/about/about";
-import { AuthContextProvider } from "./components/authContext/authContext";
+import {
+  AuthContextProvider,
+  PrivateRoute,
+} from "./components/authContext/authContext";
 
 import { Premium } from "./components/ui/premium/premium";
 
 import "./components/ui/loginPage/loginPage.css";
+import { Account } from "./components/ui/account/account";
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();
@@ -45,7 +49,22 @@ function App() {
               <Route path="login" element={<LoginPage />} />
               <Route path="find/:search" element={<Find />} />
               <Route path="about" element={<About />} />
-              <Route path="premium" element={<Premium />} />
+              <Route
+                path="premium"
+                element={
+                  <PrivateRoute>
+                    <Premium />
+                  </PrivateRoute>
+                }
+              ></Route>
+              <Route
+                path="account"
+                element={
+                  <PrivateRoute>
+                    <Account />
+                  </PrivateRoute>
+                }
+              ></Route>
               <Route path="*" element={<Empty />} />
             </Route>
           </Routes>

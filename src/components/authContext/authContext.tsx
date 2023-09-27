@@ -8,6 +8,24 @@ export interface AuthContextProps {
   userAuth: boolean;
   login: () => void;
   logout: () => void;
+  daysOfPremium: string;
+  setDaysOfPremium: React.Dispatch<React.SetStateAction<string>>;
+  values: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+  };
+  setValues: React.Dispatch<
+    React.SetStateAction<{
+      firstName: string;
+      lastName: string;
+      email: string;
+      password: string;
+      confirmPassword: string;
+    }>
+  >;
 }
 
 interface AuthContextProviderProps {
@@ -22,6 +40,14 @@ export const AuthContextProvider: FC<AuthContextProviderProps> = ({
   children,
 }) => {
   const [isUserAuth, setIsUserAuth] = useState(false);
+  const [daysOfPremium, setDaysOfPremium] = useState("");
+  const [values, setValues] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
 
   const logIn = () => {
     setIsUserAuth(true);
@@ -35,6 +61,10 @@ export const AuthContextProvider: FC<AuthContextProviderProps> = ({
     userAuth: isUserAuth,
     login: logIn,
     logout: logOut,
+    daysOfPremium: daysOfPremium,
+    setDaysOfPremium,
+    values,
+    setValues,
   };
 
   return (
@@ -44,5 +74,5 @@ export const AuthContextProvider: FC<AuthContextProviderProps> = ({
 
 export const PrivateRoute: FC<PrivateRouteProps> = ({ children }) => {
   const authContextData = useAuthContext();
-  return authContextData.userAuth ? children : <Navigate to="/" />;
+  return authContextData.userAuth ? children : <Navigate to="/login" />;
 };

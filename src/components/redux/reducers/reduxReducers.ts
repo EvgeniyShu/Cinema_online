@@ -20,7 +20,7 @@ import axios from "axios";
 export interface InitialStateProps {
   BannerFilmData: BannerFilmsProps[];
   TopFilmData: FilmProps[];
-  Favorite: Array<any>;
+  Favorite: currentFilmProps[];
   currentFilm: currentFilmProps[];
   recomendetFilm: { films: RecomendetFilm[]; pagesCount: number };
   posterFilm: Array<PosterProps>;
@@ -200,19 +200,20 @@ export const filmSlice = createSlice({
       state.similarFilm = action.payload;
     },
     addToFavorites: (state, action: PayloadAction<number>) => {
-      const [favorFilm] = current(state.TopFilmData).filter(
-        (item) => item.filmId === action.payload
+      const [favorFilm] = current(state.currentFilm).filter(
+        (item) => item.kinopoiskId === action.payload
       );
       const exzist = current(state.Favorite).filter(
-        (item) => item.filmId === favorFilm.filmId
+        (item) => item.kinopoiskId === favorFilm.kinopoiskId
       );
-      const addFavor = () =>
-        !exzist.length ? state.Favorite.push(favorFilm) : "";
+      const addFavor = () => {
+        return !exzist.length ? state.Favorite.push(favorFilm) : "";
+      };
       addFavor();
     },
     removeFromFavorites: (state, action: PayloadAction<number>) => {
       state.Favorite = current(state.Favorite).filter(
-        (item) => item.filmId !== action.payload
+        (item) => item.kinopoiskId !== action.payload
       );
     },
   },
