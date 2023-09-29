@@ -1,6 +1,12 @@
 import { IParallax, Parallax, ParallaxLayer } from "@react-spring/parallax";
 import { useRef } from "react";
-import { Background, BlackLogo, Text, TextAreaPremium } from "./styledPremium";
+import {
+  Background,
+  BlackLogo,
+  SectionPremium,
+  Text,
+  TextAreaPremium,
+} from "./styledPremium";
 import {
   InitialContextProps,
   useThemeContext,
@@ -21,7 +27,7 @@ export const Premium = () => {
   const logo2 = require("./img/logo.svg").default;
   const logo3 = require("./img/LogoWhite.svg").default;
   return (
-    <>
+    <SectionPremium>
       <Parallax
         style={{ backgroundColor: themeContextData.themeStyle.background }}
         pages={5}
@@ -109,6 +115,6 @@ export const Premium = () => {
           </ParallaxLayer>
         </ParallaxLayer>
       </Parallax>
-    </>
+    </SectionPremium>
   );
 };

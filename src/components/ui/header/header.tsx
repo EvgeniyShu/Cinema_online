@@ -23,6 +23,7 @@ import {
   useAuthContext,
 } from "../../authContext/authContext";
 import { CustomButton } from "../../shared/customButton/customButton";
+import { ScrollIndicator } from "./scrollIndicator/scrollIndicator";
 
 export const Header = () => {
   const themeContextData: InitialContextProps = useThemeContext();
@@ -77,6 +78,7 @@ export const Header = () => {
           <ThemeButton />
         </div>
       </SectionHeader>
+      <ScrollIndicator />
       {activeMenu ? (
         <Menu theme={themeContextData.themeStyle}>
           <NavLink

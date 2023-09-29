@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 import { FindDataProps } from "./findProps";
 import { RotateCard } from "../../shared/rotateCard/rotate";
 import { useDispatch } from "react-redux";
-import { fetchFindResultsData } from "../../redux/reducers/reduxReducers";
 import { AppDispatch } from "../../redux/store/reduxStore";
 import Pagination from "@mui/material/Pagination";
 

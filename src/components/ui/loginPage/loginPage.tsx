@@ -7,12 +7,14 @@ import {
 import { useAuthContext } from "../../authContext/authContext";
 import { CustomButton } from "../../shared/customButton/customButton";
 import UseRadioGroup from "./radioGroup";
+import { useNavigate } from "react-router-dom";
 
 export const LoginPage = () => {
   const bg = require("./img/background.webp");
   const logo = require("./img/logo.svg").default;
   const themeContextData: InitialContextProps = useThemeContext();
   const authData = useAuthContext();
+  const navigate = useNavigate();
 
   return (
     <div
@@ -37,6 +39,9 @@ export const LoginPage = () => {
 
             setSubmitting(true);
             authData.setValues(values);
+            navigate(`/account`, {
+              replace: false,
+            });
           }, 400);
         }}
       >

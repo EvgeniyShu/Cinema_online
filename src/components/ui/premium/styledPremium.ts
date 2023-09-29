@@ -14,6 +14,12 @@ interface TextAreaPremiumProps {
   themeStyles: Theme;
 }
 
+export const SectionPremium = styled.div`
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+`;
+
 export const Background = styled.div<BackgroundProps>`
   background: url("${(props) => props.background}") 100% 100% no-repeat;
   background-size: cover;

@@ -25,7 +25,9 @@ import { AppDispatch, useAppSelector } from "../../redux/store/reduxStore";
 import {
   addToFavorites,
   currentFilmData,
+  isFavorite,
   posterData,
+  removeFromFavorites,
   similarFilmsData,
 } from "../../redux/reducers/reduxReducers";
 import { CustomButton } from "../../shared/customButton/customButton";
@@ -40,6 +42,7 @@ export const CurrrentFilm = () => {
   useEffect(() => {
     dispatch(posterData(Number(params.id)));
     dispatch(currentFilmData(Number(params.id)));
+    dispatch(isFavorite(Number(params.id)));
     setTimeout(() => {
       dispatch(similarFilmsData(Number(params.id)));
     }, 1000);
@@ -49,6 +52,7 @@ export const CurrrentFilm = () => {
     currentFilm: currentFilmArray,
     similarFilm,
     posterFilm: poster,
+    isFavorFilm,
     error,
     loading,
   } = useAppSelector((state) => state);
@@ -126,12 +130,27 @@ export const CurrrentFilm = () => {
                 <p>{currentFilm?.description}</p>
               </CurrentFilmText>
             </Wrapper>
-            <CustomButton
-              onClick={() => dispatch(addToFavorites(Number(params.id)))}
-              themeStyles={themeContextData.themeStyle}
-            >
-              Добавить в избранное
-            </CustomButton>
+            {isFavorFilm ? (
+              <CustomButton
+                onClick={() => {
+                  dispatch(removeFromFavorites(Number(params.id)));
+                  dispatch(isFavorite(Number(params.id)));
+                }}
+                themeStyles={themeContextData.themeStyle}
+              >
+                Удалить из избранного
+              </CustomButton>
+            ) : (
+              <CustomButton
+                onClick={() => {
+                  dispatch(addToFavorites(Number(params.id)));
+                  dispatch(isFavorite(Number(params.id)));
+                }}
+                themeStyles={themeContextData.themeStyle}
+              >
+                Добавить в избранное
+              </CustomButton>
+            )}
             <BasicTabsrap>
               <BasicTabs>
                 <Player themeStyles={themeContextData.themeStyle}>

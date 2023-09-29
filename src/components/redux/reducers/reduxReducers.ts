@@ -26,7 +26,7 @@ export interface InitialStateProps {
   posterFilm: Array<PosterProps>;
   premieresFilm: PremierFilm[];
   similarFilm: any[];
-  findResults: { films: FindDataProps[]; pagesCount: number };
+  isFavorFilm: boolean;
   loading: boolean;
   error: string | null | unknown;
 }
@@ -40,7 +40,7 @@ const initialState: InitialStateProps = {
   currentFilm: [],
   similarFilm: [],
   posterFilm: [],
-  findResults: { films: [], pagesCount: 0 },
+  isFavorFilm: false,
   loading: false,
   error: null,
 };
@@ -140,24 +140,6 @@ export const similarFilmsData = createAsyncThunk(
   }
 );
 
-export const fetchFindResultsData = createAsyncThunk(
-  "films/fetchFindResultsData",
-  async (url: RequestInfo, { dispatch, rejectWithValue }) => {
-    try {
-      const result: any = await axios.get(`${url}`);
-      console.log(result);
-      dispatch(
-        fetchRecomendetFilms({
-          film: result.dataArray.films,
-          allPages: result.dataArray.pagesCount,
-        })
-      );
-    } catch (error: any) {
-      return rejectWithValue(error.message);
-    }
-  }
-);
-
 export const filmSlice = createSlice({
   name: "films",
   initialState,
@@ -181,13 +163,7 @@ export const filmSlice = createSlice({
       state.recomendetFilm.films = action.payload.film;
       state.recomendetFilm.pagesCount = action.payload.allPages;
     },
-    fetchFindFilms: (
-      state,
-      action: PayloadAction<{ film: Array<FindDataProps>; allPages: number }>
-    ) => {
-      state.findResults.films = action.payload.film;
-      state.findResults.pagesCount = action.payload.allPages;
-    },
+
     fetchCurrentFilm: (state, action: PayloadAction<currentFilmProps>) => {
       state.currentFilm.length = 0;
       state.currentFilm.push(action.payload);
@@ -215,6 +191,12 @@ export const filmSlice = createSlice({
       state.Favorite = current(state.Favorite).filter(
         (item) => item.kinopoiskId !== action.payload
       );
+    },
+    isFavorite: (state, action: PayloadAction<number>) => {
+      const isFavor = current(state.Favorite).filter(
+        (item) => item.kinopoiskId === action.payload
+      );
+      state.isFavorFilm = isFavor.length ? true : false;
     },
   },
   extraReducers: (builder) =>
@@ -275,7 +257,7 @@ export const {
   fetchPosterOfFilm,
   fetchPremieresFilms,
   fetchRecomendetFilms,
-  fetchFindFilms,
+  isFavorite,
 } = filmSlice.actions;
 
 export const filmsReducer = filmSlice.reducer;

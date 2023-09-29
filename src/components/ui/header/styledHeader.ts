@@ -18,8 +18,6 @@ export const SectionHeader = styled.div<SectionHeaderProps>`
   height: 80px;
   background-color: ${(props) => props.theme.background};
 
-  top: 0;
-  left: 0;
   z-index: 10;
   display: flex;
   flex-direction: row;
