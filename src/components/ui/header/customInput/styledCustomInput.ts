@@ -26,7 +26,7 @@ export const CustomInputWrapper = styled.div<CustomInputWrapperProps>`
   height: 50px;
   border-radius: 25px;
   border: 2px solid ${(props) => props.theme.text};
-  background-color: ${(props) => props.theme.body};
+  background-color: ${({ theme }) => theme.background};
   color: ${(props) => props.theme.text};
   display: flex;
   flex-direction: row;
@@ -35,7 +35,7 @@ export const CustomInputWrapper = styled.div<CustomInputWrapperProps>`
   padding: 0 10px;
   @media (width < 890px) {
     position: absolute;
-
+    width: 100%;
     z-index: 6;
     margin: 0 auto;
     width: calc(100% - 84px);
@@ -43,6 +43,7 @@ export const CustomInputWrapper = styled.div<CustomInputWrapperProps>`
   }
   @media (width < 380px) {
     width: calc(100% - 44px);
+    margin: 20px 0px;
   }
 `;
 

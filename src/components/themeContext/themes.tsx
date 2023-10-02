@@ -4,11 +4,11 @@ export const ThemeContext = React.createContext({} as InitialContextProps);
 export const useThemeContext = () => useContext(ThemeContext);
 
 enum Colors {
-  light = "#e6e5ee",
+  light = "#eeeeee",
   Scarlet = "#FF2400",
-  DARK = "#000000",
+  DARK = "#222831",
   Turquoise = "#3F888F",
-  BLUE = "#ABCDEF",
+  BLUE = "#00adb5",
   CORAL = "#FF7F50",
   Orange = "#FFB02E",
   DARK_BLUE = "#1164B4",
@@ -30,7 +30,7 @@ type ThemesType = Record<ThemeType, Theme>;
 
 export const Themes: ThemesType = {
   light: {
-    body: Colors.BLUE,
+    body: Colors.DARK_BLUE,
     text: Colors.DARK,
     color: Colors.DARK,
     background: Colors.light,

@@ -1,8 +1,23 @@
+import { useEffect } from "react";
+import { CircularProgress } from "@mui/material";
+import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
+import BasicTabs from "./swiper";
+import { Slider } from "./slider";
+import { useDispatch } from "react-redux";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import {
   InitialContextProps,
   useThemeContext,
 } from "../../themeContext/themes";
+import { AppDispatch, useAppSelector } from "../../redux/store/reduxStore";
+import {
+  addToFavorites,
+  currentFilmData,
+  isFavorite,
+  posterData,
+  removeFromFavorites,
+  similarFilmsData,
+} from "../../redux/reducers/reduxReducers";
 import {
   BasicTabsrap,
   CurrentFilmImg,
@@ -15,24 +30,10 @@ import {
   SliderWrapper,
   Wrapper,
 } from "./styledCurrentFilm";
-import { useEffect } from "react";
-import { CircularProgress } from "@mui/material";
-import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
-import BasicTabs from "./swiper";
-import { Slider } from "./slider";
-import { useDispatch } from "react-redux";
-import { AppDispatch, useAppSelector } from "../../redux/store/reduxStore";
-import {
-  addToFavorites,
-  currentFilmData,
-  isFavorite,
-  posterData,
-  removeFromFavorites,
-  similarFilmsData,
-} from "../../redux/reducers/reduxReducers";
 import { CustomButton } from "../../shared/customButton/customButton";
+import { ScrollIndicator } from "../../shared/scrollIndicator/scrollIndicator";
 
-export const CurrrentFilm = () => {
+export const CurrentFilm = () => {
   const themeContextData: InitialContextProps = useThemeContext();
 
   const params = useParams();
@@ -60,8 +61,9 @@ export const CurrrentFilm = () => {
 
   if (loading) {
     return (
-      <div style={{ padding: 200 }}>
-        <CircularProgress color="secondary" /> Loading...
+      <div style={{ padding: 200, color: themeContextData.themeStyle.text }}>
+        <CircularProgress color="secondary" />{" "}
+        <p>Загрузка данных с сервера...</p>
       </div>
     );
   }
@@ -73,16 +75,18 @@ export const CurrrentFilm = () => {
           ? poster[0].imageUrl
           : themeContextData.themeStyle.background
       }
-      themeStyles={themeContextData.themeStyle}
+      themestyles={themeContextData.themeStyle}
     >
       {error ? (
-        <div style={{ padding: 200 }}>Ошибка в получении данных с сервера</div>
+        <p style={{ padding: 200, height: "calc(100vh - 670px)" }}>
+          Ошибка в получении данных с сервера
+        </p>
       ) : (
         <>
-          <p>{currentFilm?.slogan}</p>
+          <p style={{ paddingTop: 20, margin: 0 }}>{currentFilm?.slogan}</p>
           <FilmDescription
             key={params.id}
-            themeStyles={themeContextData.themeStyle}
+            themestyles={themeContextData.themeStyle}
             background={
               poster.length
                 ? poster[0].imageUrl
@@ -94,7 +98,7 @@ export const CurrrentFilm = () => {
                 src={currentFilm?.posterUrlPreview}
                 alt={currentFilm?.nameEn}
               />
-              <CurrentFilmText themeStyles={themeContextData.themeStyle}>
+              <CurrentFilmText themestyles={themeContextData.themeStyle}>
                 <h3>
                   {currentFilm?.nameRu} ({currentFilm?.year})
                 </h3>
@@ -112,9 +116,37 @@ export const CurrrentFilm = () => {
                 <p>
                   Жанр:
                   <div>
-                    {currentFilm?.genres
-                      .reduce((acc, item) => (acc += item.genre + ", "), "")
-                      .slice(0, -2)}
+                    {currentFilm?.genres.map((item) => (
+                      <CustomButton
+                        themestyles={themeContextData.themeStyle}
+                        key={item.genre}
+                        onClick={() =>
+                          navigate(`/find/genre${item.genre}`, {
+                            state: { find: item.genre, select: "genre" },
+                          })
+                        }
+                      >
+                        {item.genre}
+                      </CustomButton>
+                    ))}
+                  </div>
+                </p>
+                <p>
+                  Страна:
+                  <div>
+                    {currentFilm?.countries.map((item) => (
+                      <CustomButton
+                        themestyles={themeContextData.themeStyle}
+                        key={item.country}
+                        onClick={() =>
+                          navigate(`/find/country${item.country}`, {
+                            state: { find: item.country, select: "country" },
+                          })
+                        }
+                      >
+                        {item.country}
+                      </CustomButton>
+                    ))}
                   </div>
                 </p>
                 <p>
@@ -136,7 +168,7 @@ export const CurrrentFilm = () => {
                   dispatch(removeFromFavorites(Number(params.id)));
                   dispatch(isFavorite(Number(params.id)));
                 }}
-                themeStyles={themeContextData.themeStyle}
+                themestyles={themeContextData.themeStyle}
               >
                 Удалить из избранного
               </CustomButton>
@@ -146,28 +178,35 @@ export const CurrrentFilm = () => {
                   dispatch(addToFavorites(Number(params.id)));
                   dispatch(isFavorite(Number(params.id)));
                 }}
-                themeStyles={themeContextData.themeStyle}
+                themestyles={themeContextData.themeStyle}
               >
                 Добавить в избранное
               </CustomButton>
             )}
             <BasicTabsrap>
               <BasicTabs>
-                <Player themeStyles={themeContextData.themeStyle}>
-                  <div>Смотреть онлайн</div>
+                <Player themestyles={themeContextData.themeStyle}>
+                  <p>Смотреть онлайн</p>
+
                   <PlayCircleOutlineIcon fontSize="large" />
                 </Player>
                 <div>
                   {similarFilm?.length ? (
-                    <SimilarFilmsWrap themeStyles={themeContextData.themeStyle}>
+                    <SimilarFilmsWrap themestyles={themeContextData.themeStyle}>
                       {similarFilm.map((item) => (
                         <NavLink key={item.filmId} to={`/film/${item.filmId}`}>
                           <SimilarFilmsImg
                             src={item.posterUrlPreview}
                             alt={item.nameEn}
                           />
-                          <div></div>
-                          {item.nameRu}
+                          <p
+                            style={{
+                              textDecoration: "none",
+                              color: themeContextData.themeStyle.text,
+                            }}
+                          >
+                            {item.nameRu}
+                          </p>
                         </NavLink>
                       ))}
                     </SimilarFilmsWrap>
@@ -189,6 +228,7 @@ export const CurrrentFilm = () => {
           </FilmDescription>
         </>
       )}
+      <ScrollIndicator />
     </SectionCurrentFilm>
   );
 };

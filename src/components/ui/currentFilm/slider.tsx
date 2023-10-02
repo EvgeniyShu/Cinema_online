@@ -5,7 +5,7 @@ import {
   useThemeContext,
 } from "../../themeContext/themes";
 import { CustomButton } from "../../shared/customButton/customButton";
-import { SliderWrapper, Wrapper } from "./styledCurrentFilm";
+import { SliderWrapper } from "./styledCurrentFilm";
 
 export const Slider = (array: any) => {
   const [index, setIndex] = React.useState(0);
@@ -40,13 +40,13 @@ export const Slider = (array: any) => {
       </SliderWrapper>
 
       <CustomButton
-        themeStyles={themeContextData.themeStyle}
+        themestyles={themeContextData.themeStyle}
         onClick={() => setIndex((state) => (state - 1) % items.length)}
       >
         Предыдущий
       </CustomButton>
       <CustomButton
-        themeStyles={themeContextData.themeStyle}
+        themestyles={themeContextData.themeStyle}
         onClick={() => setIndex((state) => (state + 1) % items.length)}
       >
         Следующий

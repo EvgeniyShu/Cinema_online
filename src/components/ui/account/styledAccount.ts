@@ -2,11 +2,11 @@ import { styled } from "styled-components";
 import { Theme } from "../../themeContext/themes";
 
 interface SectionFindProps {
-  themeStyles: Theme;
+  themestyles: Theme;
 }
 
 interface AllFavoriteFilmsProps {
-  themeStyles: Theme;
+  themestyles: Theme;
 }
 
 export const SectionAccount = styled.div<SectionFindProps>`
@@ -14,9 +14,9 @@ export const SectionAccount = styled.div<SectionFindProps>`
   height: 100%;
   padding: 20px 0;
 
-  font-size: ${({ themeStyles }) => themeStyles.fontSize};
-  background: ${({ themeStyles }) => themeStyles.background};
-  color: ${({ themeStyles }) => themeStyles.text};
+  font-size: ${({ themestyles }) => themestyles.fontSize};
+  background: ${({ themestyles }) => themestyles.background};
+  color: ${({ themestyles }) => themestyles.text};
   display: flex;
   align-items: center;
   justify-content: center;

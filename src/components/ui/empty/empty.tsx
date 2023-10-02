@@ -11,11 +11,11 @@ export const Empty = () => {
   const navigate = useNavigate();
 
   return (
-    <SectionEmpty themeStyles={themeContextData.themeStyle}>
+    <SectionEmpty themestyles={themeContextData.themeStyle}>
       <p>по данному запросу ничего не найдено</p>
       <CustomButton
         onClick={() => navigate("/")}
-        themeStyles={themeContextData.themeStyle}
+        themestyles={themeContextData.themeStyle}
       >
         Вернуться на Главную
       </CustomButton>

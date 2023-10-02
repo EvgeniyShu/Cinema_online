@@ -23,7 +23,6 @@ import {
   useAuthContext,
 } from "../../authContext/authContext";
 import { CustomButton } from "../../shared/customButton/customButton";
-import { ScrollIndicator } from "./scrollIndicator/scrollIndicator";
 
 export const Header = () => {
   const themeContextData: InitialContextProps = useThemeContext();
@@ -45,13 +44,17 @@ export const Header = () => {
       <SectionHeader theme={themeContextData.themeStyle}>
         <Wrapper>
           {activeMenu ? (
-            <LunchDiningIcon fontSize="large" onClick={changeMenu} />
+            <div style={{ cursor: "pointer" }} title="закрыть меню">
+              <LunchDiningIcon fontSize="large" onClick={changeMenu} />
+            </div>
           ) : (
-            <MenuIcon fontSize="large" onClick={changeMenu} />
+            <div style={{ cursor: "pointer" }} title="меню">
+              <MenuIcon fontSize="large" onClick={changeMenu} />
+            </div>
           )}
 
           <LogoWrapper theme={themeContextData.themeStyle}>
-            <NavLink to={"/"}>
+            <NavLink to={"/"} title="на главную">
               <img src={logo} alt="logo" />
             </NavLink>
             <LogoTextWrapper>
@@ -66,6 +69,7 @@ export const Header = () => {
           <SearchButton
             theme={themeContextData.themeStyle}
             onClick={() => changeSearch()}
+            title="открыть/закрыть окно поиска"
           >
             <div style={{ marginTop: 5, marginLeft: 5 }}>
               {activeSearch ? (
@@ -78,7 +82,7 @@ export const Header = () => {
           <ThemeButton />
         </div>
       </SectionHeader>
-      <ScrollIndicator />
+
       {activeMenu ? (
         <Menu theme={themeContextData.themeStyle}>
           <NavLink
@@ -161,7 +165,7 @@ export const Header = () => {
             <div style={{ width: 86 }}>
               <CustomButton
                 onClick={() => authContext.logout()}
-                themeStyles={themeContextData.themeStyle}
+                themestyles={themeContextData.themeStyle}
               >
                 Выйти
               </CustomButton>

@@ -1,0 +1,11 @@
+export { About } from "./about/about";
+export { Account } from "./account/account";
+export { CurrentFilm } from "./currentFilm/currentFilm";
+export { Empty } from "./empty/empty";
+export { Find } from "./find/find";
+export { Footer } from "./footer/footer";
+export { Header } from "./header/header";
+export { HelloPage } from "./helloPage/helloPage";
+export { LoginPage } from "./loginPage/loginPage";
+export { Person } from "./person/person";
+export { Premium } from "./premium/premium";

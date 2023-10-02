@@ -2,19 +2,19 @@ import styled from "styled-components";
 import { Theme } from "../../themeContext/themes";
 
 interface CustomLinkMenuProps {
-  themeStyles: Theme;
+  themestyles: Theme;
 }
 
 export const CustomButton = styled.button<CustomLinkMenuProps>`
   margin: 0px auto 0px auto;
   background: transparent;
-  color: ${({ themeStyles }) => themeStyles.text};
+  color: ${({ themestyles }) => themestyles.text};
   cursor: pointer;
   padding: 10px;
   border: none;
-  outline: 1px solid ${({ themeStyles }) => themeStyles.text};
+  outline: 1px solid ${({ themestyles }) => themestyles.text};
   outline-offset: -2px;
-  font-size: ${({ themeStyles }) => themeStyles.fontSize};
+  font-size: ${({ themestyles }) => themestyles.fontSize};
   border-radius: 3px;
   transition: all 0.1s ease-out;
 

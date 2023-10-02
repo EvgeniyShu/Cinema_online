@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 
 export const axiosApiInstance = axios.create({
-  baseURL: "https://kinopoiskapiunofficial.tech/api/v2.2/films",
+  baseURL: "https://kinopoiskapiunofficial.tech/api/",
   method: "GET",
   headers: {
     "X-API-KEY": "992d39b4-9cf2-4a5a-b0f2-3c3fa2df9f90",

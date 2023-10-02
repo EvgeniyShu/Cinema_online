@@ -10,7 +10,7 @@ interface BunnerCProps {
 }
 
 interface ScrollButtonProps {
-  themeStyles: Theme;
+  themestyles: Theme;
 }
 export const BunnerC = styled.div<BunnerCProps>`
   max-width: 100vw;
@@ -33,7 +33,7 @@ export const Window = styled.div`
   display: flex;
   align-items: flex-end;
   gap: 20px;
-  padding-top: 80px;
+
   overflow-x: auto;
   width: 85vw;
   margin: 0 auto;
@@ -54,15 +54,9 @@ export const BunnerFilmImg = styled.img`
     position: relative;
     transition-duration: 0.8s;
     transition-timing-function: cubic-bezier;
-    top: -20px;
+
     cursor: pointer;
   }
-`;
-
-export const Raiting = styled.div<RaitingProps>`
-  position: absolute;
-  top: 5px;
-  left: 5px;
 `;
 
 export const LeftScrollButton = styled.div<ScrollButtonProps>`
@@ -72,8 +66,8 @@ export const LeftScrollButton = styled.div<ScrollButtonProps>`
   padding: 10px;
   border-radius: 50%;
   cursor: pointer;
-  background: ${({ themeStyles }) => themeStyles.text};
-  color: ${({ themeStyles }) => themeStyles.background};
+  background: ${({ themestyles }) => themestyles.text};
+  color: ${({ themestyles }) => themestyles.background};
   font-size: 25px;
 `;
 
@@ -84,7 +78,7 @@ export const RightScrollButton = styled.div<ScrollButtonProps>`
   padding: 10px;
   border-radius: 50%;
   cursor: pointer;
-  background: ${({ themeStyles }) => themeStyles.text};
-  color: ${({ themeStyles }) => themeStyles.background};
+  background: ${({ themestyles }) => themestyles.text};
+  color: ${({ themestyles }) => themestyles.background};
   font-size: 25px;
 `;

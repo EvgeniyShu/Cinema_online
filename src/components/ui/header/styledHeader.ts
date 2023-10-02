@@ -25,7 +25,6 @@ export const SectionHeader = styled.div<SectionHeaderProps>`
   justify-content: space-between;
   padding: 10px 30px;
   box-sizing: border-box;
-  margin-bottom: 60px;
 
   color: ${(props) => props.theme.color};
   @media (width < 380px) {

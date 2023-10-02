@@ -1,10 +1,11 @@
 .validation {
-  height: 100vh;
+  height: 100%;
   width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: "Sofia Sans", sans-serif;
+  overflow-y: scroll;
 }
 .form {
   background-color: none;
@@ -25,7 +26,7 @@
   align-items: center;
   border: 3px solid #000;
   border-radius: 10px;
-
+  margin: 80px auto;
   @media (width < 800px) {
     flex-direction: column;
   }

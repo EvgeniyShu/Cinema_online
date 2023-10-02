@@ -19,7 +19,11 @@ export const ThemeButton = () => {
   };
 
   return (
-    <Themebutton onClick={changeTheme} theme={themeContextData.themeStyle}>
+    <Themebutton
+      onClick={changeTheme}
+      theme={themeContextData.themeStyle}
+      title="сменить тему"
+    >
       <div style={{ marginTop: 15 }}>
         {themeContextData.theme === "light" ? (
           <LightModeIcon fontSize="large" color="warning" />

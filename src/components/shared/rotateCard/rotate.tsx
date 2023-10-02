@@ -15,6 +15,7 @@ interface RotateCardProps {
   id: number;
   text: string;
   rating: number | undefined;
+  choise: "film" | "person";
 }
 
 export const RotateCard = (props: RotateCardProps) => {
@@ -43,7 +44,7 @@ export const RotateCard = (props: RotateCardProps) => {
           borderRadius: 10,
         }}
       >
-        {props.rating != undefined ? (
+        {props.rating !== undefined ? (
           <FilmRate rate={props.rating}>{props.rating}</FilmRate>
         ) : (
           <></>
@@ -67,6 +68,7 @@ export const RotateCard = (props: RotateCardProps) => {
           flexDirection: "column",
           borderRadius: 10,
         }}
+        title={props.text}
       >
         <h3
           style={{
@@ -80,10 +82,10 @@ export const RotateCard = (props: RotateCardProps) => {
         </h3>
         <Link
           key={props.id}
-          to={`/film/${props.id}`}
+          to={`/${props.choise}/${props.id}`}
           style={{ textDecoration: "none" }}
         >
-          <CustomButton themeStyles={themeContextData.themeStyle}>
+          <CustomButton themestyles={themeContextData.themeStyle}>
             перейти
           </CustomButton>
         </Link>

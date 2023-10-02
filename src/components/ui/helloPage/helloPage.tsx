@@ -17,9 +17,9 @@ import {
   HelloPageSection,
 } from "./styledHelloPage";
 import { useDispatch } from "react-redux";
-import { fetchRecomendetFilmData } from "../../redux/reducers/reduxReducers";
+import { recomendetFilmData } from "../../redux/reducers/reduxReducers";
 import { useEffect, useState } from "react";
-import React from "react";
+import { ScrollIndicator } from "../../shared/scrollIndicator/scrollIndicator";
 
 export const HelloPage = () => {
   const themeContextData: InitialContextProps = useThemeContext();
@@ -37,7 +37,7 @@ export const HelloPage = () => {
   const { films: recomendet, pagesCount } = recomendetFilm;
 
   useEffect(() => {
-    dispatch(fetchRecomendetFilmData(page + 1));
+    dispatch(recomendetFilmData(page + 1));
   }, [page]);
 
   if (loading) {
@@ -49,18 +49,20 @@ export const HelloPage = () => {
   }
 
   return (
-    <HelloPageSection themeStyles={themeContextData.themeStyle}>
+    <HelloPageSection themestyles={themeContextData.themeStyle}>
       {error ? (
-        <div style={{ padding: 200 }}>Ошибка в получении данных с сервера</div>
+        <div style={{ padding: 200, height: "calc(100vh - 670px)" }}>
+          Ошибка в получении данных с сервера
+        </div>
       ) : (
         <>
           <BannerWrap>
             <Banner></Banner>
           </BannerWrap>
 
-          <FilmOffer themeStyles={themeContextData.themeStyle}>
+          <FilmOffer themestyles={themeContextData.themeStyle}>
             <div>Премьеры</div>
-            <FilmRecomendations themeStyles={themeContextData.themeStyle}>
+            <FilmRecomendations>
               {premiere.map((item) => (
                 <div key={item.kinopoiskId} style={{ position: "relative" }}>
                   <CardSize>
@@ -69,6 +71,7 @@ export const HelloPage = () => {
                       id={item.kinopoiskId}
                       text={item.nameRu}
                       rating={undefined}
+                      choise={"film"}
                     />
                   </CardSize>
                 </div>
@@ -76,9 +79,9 @@ export const HelloPage = () => {
             </FilmRecomendations>
           </FilmOffer>
 
-          <FilmOffer themeStyles={themeContextData.themeStyle}>
+          <FilmOffer themestyles={themeContextData.themeStyle}>
             <div>Топ фильмы</div>
-            <FilmRecomendations themeStyles={themeContextData.themeStyle}>
+            <FilmRecomendations>
               {films.map((item) => (
                 <div key={item.filmId} style={{ position: "relative" }}>
                   <CardSize>
@@ -87,15 +90,16 @@ export const HelloPage = () => {
                       id={item.filmId}
                       text={item.nameRu}
                       rating={item.rating}
+                      choise={"film"}
                     />
                   </CardSize>
                 </div>
               ))}
             </FilmRecomendations>
           </FilmOffer>
-          <FilmOffer themeStyles={themeContextData.themeStyle} key={page}>
+          <FilmOffer themestyles={themeContextData.themeStyle} key={page}>
             <div>Рекомендаии</div>
-            <AllFilmRecomendations themeStyles={themeContextData.themeStyle}>
+            <AllFilmRecomendations>
               {recomendet.map((item) => (
                 <div
                   key={item.filmId}
@@ -111,6 +115,7 @@ export const HelloPage = () => {
                       id={item.filmId}
                       text={item.nameRu}
                       rating={Number(item.rating)}
+                      choise={"film"}
                     />
                   </CardSize>
                 </div>
@@ -119,7 +124,6 @@ export const HelloPage = () => {
             <div
               style={{
                 margin: "0 auto",
-
                 width: "342px",
               }}
             >
@@ -138,6 +142,7 @@ export const HelloPage = () => {
           </FilmOffer>
         </>
       )}
+      <ScrollIndicator />
     </HelloPageSection>
   );
 };

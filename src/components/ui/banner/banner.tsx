@@ -61,7 +61,7 @@ export const Banner = () => {
       <FilmImgList>
         <LeftScrollButton
           onClick={() => scrollContainerBy(-400)}
-          themeStyles={themeContextData.themeStyle}
+          themestyles={themeContextData.themeStyle}
         >
           ←
         </LeftScrollButton>
@@ -83,7 +83,7 @@ export const Banner = () => {
         </Window>
         <RightScrollButton
           onClick={() => scrollContainerBy(400)}
-          themeStyles={themeContextData.themeStyle}
+          themestyles={themeContextData.themeStyle}
         >
           →
         </RightScrollButton>

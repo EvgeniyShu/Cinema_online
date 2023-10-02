@@ -8,7 +8,7 @@ export const About = () => {
   const themeContextData: InitialContextProps = useThemeContext();
 
   return (
-    <SectionAbout themeStyles={themeContextData.themeStyle}>
+    <SectionAbout themestyles={themeContextData.themeStyle}>
       <SectionAboutText>
         Самый популярный у пользователей онлайн-кинотеатр с очень большим
         количеством бесплатного контента. Специализируется на базе рынка

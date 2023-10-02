@@ -2,30 +2,22 @@ import styled from "styled-components";
 import { Theme } from "../../themeContext/themes";
 
 interface HelloPageSectionProps {
-  themeStyles: Theme;
+  themestyles: Theme;
 }
 
 interface FilmOfferProps {
-  themeStyles: Theme;
-}
-
-interface FilmTextProps {
-  themeStyles: Theme;
-}
-
-interface FilmRecomendationsProps {
-  themeStyles: Theme;
+  themestyles: Theme;
 }
 
 export const HelloPageSection = styled.div<HelloPageSectionProps>`
-  background-color: ${({ themeStyles }) => themeStyles.background};
-
+  background-color: ${({ themestyles }) => themestyles.background};
+  padding-bottom: 25px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: ${({ themeStyles }) => themeStyles.fontSize};
-  color: ${({ themeStyles }) => themeStyles.text};
+  font-size: ${({ themestyles }) => themestyles.fontSize};
+  color: ${({ themestyles }) => themestyles.text};
 `;
 
 export const BannerWrap = styled.div`
@@ -37,7 +29,7 @@ export const BannerWrap = styled.div`
 
 export const FilmOffer = styled.div<FilmOfferProps>`
   margin-top: 50px;
-  background-color: ${({ themeStyles }) => themeStyles.background};
+  background-color: ${({ themestyles }) => themestyles.background};
 
   border-radius: 8px;
   width: 75vw;
@@ -50,17 +42,17 @@ export const FilmOffer = styled.div<FilmOfferProps>`
 
   ::-webkit-scrollbar-track {
     border-radius: 5px;
-    background-color: ${({ themeStyles }) => themeStyles.background};
-    border: 1px solid ${({ themeStyles }) => themeStyles.text};
+    background-color: ${({ themestyles }) => themestyles.background};
+    border: 1px solid ${({ themestyles }) => themestyles.text};
   }
 
   ::-webkit-scrollbar-thumb {
     border-radius: 5px;
-    background-color: ${({ themeStyles }) => themeStyles.text};
+    background-color: ${({ themestyles }) => themestyles.text};
   }
 
   ::-webkit-scrollbar-corner {
-    background-color: ${({ themeStyles }) => themeStyles.text};
+    background-color: ${({ themestyles }) => themestyles.text};
   }
 
   @media (width < 600px) {
@@ -68,7 +60,7 @@ export const FilmOffer = styled.div<FilmOfferProps>`
   }
 `;
 
-export const FilmRecomendations = styled.div<FilmRecomendationsProps>`
+export const FilmRecomendations = styled.div`
   display: flex;
   gap: 20px;
   height: 300px;
@@ -85,7 +77,7 @@ export const FilmRecomendations = styled.div<FilmRecomendationsProps>`
   }
 `;
 
-export const AllFilmRecomendations = styled.div<FilmRecomendationsProps>`
+export const AllFilmRecomendations = styled.div`
   display: grid;
   grid-gap: 20px;
   height: 100%;

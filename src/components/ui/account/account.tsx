@@ -1,6 +1,7 @@
 import { useAuthContext } from "../../authContext/authContext";
 import { useAppSelector } from "../../redux/store/reduxStore";
 import { RotateCard } from "../../shared/rotateCard/rotate";
+import { ScrollIndicator } from "../../shared/scrollIndicator/scrollIndicator";
 import {
   InitialContextProps,
   useThemeContext,
@@ -13,10 +14,8 @@ export const Account = () => {
 
   const { Favorite: favorite } = useAppSelector((state) => state);
 
-  console.log(favorite);
-
   return (
-    <SectionAccount themeStyles={themeContextData.themeStyle}>
+    <SectionAccount themestyles={themeContextData.themeStyle}>
       <h2>Добро пожаловать в личный кабинет</h2>
       <p>Тариф: {authData.daysOfPremium} дней премиума</p>
       <p>Имя: {authData.values.firstName}</p>
@@ -24,7 +23,7 @@ export const Account = () => {
       <p>Почта: {authData.values.email}</p>
       <p>Понравившиеся фильмы</p>
       {favorite.length ? (
-        <AllFavoriteFilms themeStyles={themeContextData.themeStyle}>
+        <AllFavoriteFilms themestyles={themeContextData.themeStyle}>
           {favorite.map((item) => (
             <div
               key={item.kinopoiskId}
@@ -40,6 +39,7 @@ export const Account = () => {
                   id={item.kinopoiskId}
                   text={item.nameRu}
                   rating={Number(item.ratingImdb)}
+                  choise={"film"}
                 />
               </CardSize>
             </div>
@@ -48,6 +48,7 @@ export const Account = () => {
       ) : (
         <p>Список пуст</p>
       )}
+      <ScrollIndicator />
     </SectionAccount>
   );
 };

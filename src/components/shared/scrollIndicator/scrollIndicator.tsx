@@ -3,7 +3,7 @@ import { ProgressBar, ProgressContainer } from "./styledScrollIndicator";
 import {
   InitialContextProps,
   useThemeContext,
-} from "../../../themeContext/themes";
+} from "../../themeContext/themes";
 
 export const ScrollIndicator = () => {
   const themeContextData: InitialContextProps = useThemeContext();

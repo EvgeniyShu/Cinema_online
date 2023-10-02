@@ -2,17 +2,16 @@ import { styled } from "styled-components";
 import { Theme } from "../../themeContext/themes";
 
 interface SectionEmptyProps {
-  themeStyles: Theme;
+  themestyles: Theme;
 }
 
 export const SectionFooter = styled.div<SectionEmptyProps>`
-  margin-top: 25px;
   width: 100vw;
   height: 110px;
-  border-top: 1px solid ${({ themeStyles }) => themeStyles.text};
-  font-size: ${({ themeStyles }) => themeStyles.fontSize};
-  background: ${({ themeStyles }) => themeStyles.background};
-  color: ${({ themeStyles }) => themeStyles.text} !important;
+  border-top: 1px solid ${({ themestyles }) => themestyles.text};
+  font-size: ${({ themestyles }) => themestyles.fontSize};
+  background: ${({ themestyles }) => themestyles.background};
+  color: ${({ themestyles }) => themestyles.text} !important;
 `;
 
 export const Wrapper = styled.div`

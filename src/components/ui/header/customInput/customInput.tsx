@@ -30,13 +30,11 @@ export const CustomInputElement = () => {
     });
   };
   return (
-    <CustomInputWrapper>
+    <CustomInputWrapper theme={themeContextData.themeStyle}>
       <SearchIcon fontSize="large" />
       <form>
         <CustomSelect
           theme={themeContextData.themeStyle}
-          id="fruits"
-          name="fruits"
           onChange={handleChange}
         >
           <CustomOption theme={themeContextData.themeStyle} value={"name"}>
@@ -52,7 +50,7 @@ export const CustomInputElement = () => {
       </form>
       <CustomInput theme={themeContextData.themeStyle} id="input" />
       <CustomButton
-        themeStyles={themeContextData.themeStyle}
+        themestyles={themeContextData.themeStyle}
         onClick={ButtonClick}
       >
         ok

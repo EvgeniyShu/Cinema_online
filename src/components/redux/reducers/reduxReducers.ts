@@ -9,13 +9,15 @@ import {
 import {
   BannerFilmsProps,
   FilmProps,
+  FilterProps,
   FindDataProps,
+  Person,
   PosterProps,
   PremierFilm,
   RecomendetFilm,
+  Result,
   currentFilmProps,
 } from "./propsReducers";
-import axios from "axios";
 
 export interface InitialStateProps {
   BannerFilmData: BannerFilmsProps[];
@@ -23,10 +25,13 @@ export interface InitialStateProps {
   Favorite: currentFilmProps[];
   currentFilm: currentFilmProps[];
   recomendetFilm: { films: RecomendetFilm[]; pagesCount: number };
+  findData: { data: FindDataProps[]; pagesCount: number };
   posterFilm: Array<PosterProps>;
   premieresFilm: PremierFilm[];
+  filter: FilterProps;
   similarFilm: any[];
   isFavorFilm: boolean;
+  Person: Person[];
   loading: boolean;
   error: string | null | unknown;
 }
@@ -36,11 +41,14 @@ const initialState: InitialStateProps = {
   TopFilmData: [],
   premieresFilm: [],
   recomendetFilm: { films: [], pagesCount: 0 },
+  findData: { data: [], pagesCount: 0 },
   Favorite: [],
   currentFilm: [],
   similarFilm: [],
+  filter: { countries: [], genres: [] },
   posterFilm: [],
   isFavorFilm: false,
+  Person: [],
   loading: false,
   error: null,
 };
@@ -50,7 +58,7 @@ export const BannerFilmData = createAsyncThunk(
   async (_, { dispatch, rejectWithValue }) => {
     try {
       const result: any = await Api.fetchData(
-        "/top?type=TOP_AWAIT_FILMS&page=1"
+        "v2.2/films/top?type=TOP_AWAIT_FILMS&page=1"
       );
       dispatch(fetchBannerFilms(result.dataArray.films));
     } catch (error: any) {
@@ -64,7 +72,7 @@ export const premieresFilmData = createAsyncThunk(
   async (_, { dispatch, rejectWithValue }) => {
     try {
       const result: any = await Api.fetchData(
-        "/premieres?year=2023&month=SEPTEMBER"
+        "v2.2/films/premieres?year=2023&month=SEPTEMBER"
       );
       dispatch(fetchPremieresFilms(result.dataArray.items));
     } catch (error: any) {
@@ -73,11 +81,11 @@ export const premieresFilmData = createAsyncThunk(
   }
 );
 
-export const fetchTopFilmData = createAsyncThunk(
+export const topFilmData = createAsyncThunk(
   "films/fetchTopFilms",
   async (_, { dispatch, rejectWithValue }) => {
     try {
-      const result: any = await Api.fetchData("/top");
+      const result: any = await Api.fetchData("v2.2/films/top");
       dispatch(fetchFilms(result.dataArray.films));
     } catch (error: any) {
       return rejectWithValue(error.message);
@@ -85,12 +93,12 @@ export const fetchTopFilmData = createAsyncThunk(
   }
 );
 
-export const fetchRecomendetFilmData = createAsyncThunk(
+export const recomendetFilmData = createAsyncThunk(
   "films/fetchRecomendetFilms",
   async (id: number, { dispatch, rejectWithValue }) => {
     try {
       const result: any = await Api.fetchData(
-        `/top?type=TOP_250_BEST_FILMS&page=${id}`
+        `v2.2/films/top?type=TOP_250_BEST_FILMS&page=${id}`
       );
       dispatch(
         fetchRecomendetFilms({
@@ -108,7 +116,7 @@ export const currentFilmData = createAsyncThunk(
   "films/fetchCurrentFilm",
   async (id: number, { dispatch, rejectWithValue }) => {
     try {
-      const result: any = await Api.fetchData(`/${id}`);
+      const result: any = await Api.fetchData(`v2.2/films/${id}`);
       dispatch(fetchCurrentFilm(result.dataArray));
     } catch (error: any) {
       return rejectWithValue(error.message);
@@ -117,10 +125,10 @@ export const currentFilmData = createAsyncThunk(
 );
 
 export const posterData = createAsyncThunk(
-  "films/fetchCurrentFilm",
+  "films/fetchPosterData",
   async (id: number, { dispatch, rejectWithValue }) => {
     try {
-      const result: any = await Api.fetchData(`/${id}/images`);
+      const result: any = await Api.fetchData(`v2.2/films/${id}/images`);
       dispatch(fetchPosterOfFilm(result.dataArray.items));
     } catch (error: any) {
       return rejectWithValue(error.message);
@@ -132,8 +140,50 @@ export const similarFilmsData = createAsyncThunk(
   "films/fetchSimilarFilms",
   async (id: number, { dispatch, rejectWithValue }) => {
     try {
-      const result: any = await Api.fetchData(`/${id}/similars`);
+      const result: any = await Api.fetchData(`v2.2/films/${id}/similars`);
       dispatch(fetchSimilarFilm(result.dataArray.items));
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const personData = createAsyncThunk(
+  "films/fetchPersonData",
+  async (id: number, { dispatch, rejectWithValue }) => {
+    try {
+      const result: any = await Api.fetchData(`/v1/staff/${id}`);
+
+      dispatch(fetchPersonData(result.dataArray));
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const filterData = createAsyncThunk(
+  "films/fetchfilterData",
+  async (_, { dispatch, rejectWithValue }) => {
+    try {
+      const result: any = await Api.fetchData("/v2.2/films/filters");
+      dispatch(fetchFilterData(result.dataArray));
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const findDataReqest = createAsyncThunk(
+  "films/fetchFindData",
+  async (url: string, { dispatch, rejectWithValue }) => {
+    try {
+      const result: any = await Api.fetchData(`${url}`);
+      dispatch(
+        fetchFindData({
+          data: result.dataArray.items,
+          allPages: result.dataArray.totalPages,
+        })
+      );
     } catch (error: any) {
       return rejectWithValue(error.message);
     }
@@ -175,6 +225,17 @@ export const filmSlice = createSlice({
     fetchSimilarFilm: (state, action: PayloadAction<any[]>) => {
       state.similarFilm = action.payload;
     },
+    fetchPersonData: (state, action: PayloadAction<Person>) => {
+      state.Person.length = 0;
+      state.Person.push(action.payload);
+    },
+    fetchFindData: (
+      state,
+      action: PayloadAction<{ data: Array<FindDataProps>; allPages: number }>
+    ) => {
+      state.findData.data = action.payload.data;
+      state.findData.pagesCount = action.payload.allPages;
+    },
     addToFavorites: (state, action: PayloadAction<number>) => {
       const [favorFilm] = current(state.currentFilm).filter(
         (item) => item.kinopoiskId === action.payload
@@ -198,17 +259,49 @@ export const filmSlice = createSlice({
       );
       state.isFavorFilm = isFavor.length ? true : false;
     },
+    fetchFilterData: (
+      state,
+      action: PayloadAction<{
+        countries: { id: number; country: string }[];
+        genres: { id: number; genre: string }[];
+      }>
+    ) => {
+      state.filter.genres = action.payload.genres;
+      state.filter.countries = action.payload.countries;
+    },
   },
   extraReducers: (builder) =>
     builder
-      .addCase(fetchTopFilmData.pending, (state) => {
+      .addCase(BannerFilmData.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchTopFilmData.fulfilled, (state) => {
+      .addCase(BannerFilmData.fulfilled, (state) => {
         state.loading = false;
       })
-      .addCase(fetchTopFilmData.rejected, (state, action) => {
+      .addCase(BannerFilmData.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(premieresFilmData.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(premieresFilmData.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(premieresFilmData.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(topFilmData.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(topFilmData.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(topFilmData.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
@@ -227,21 +320,43 @@ export const filmSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(similarFilmsData.fulfilled, (state, action: any) => {
+      .addCase(similarFilmsData.fulfilled, (state) => {
         state.loading = false;
       })
       .addCase(similarFilmsData.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
-      .addCase(fetchRecomendetFilmData.pending, (state) => {
+      .addCase(recomendetFilmData.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchRecomendetFilmData.fulfilled, (state, action: any) => {
+      .addCase(recomendetFilmData.fulfilled, (state) => {
         state.loading = false;
       })
-      .addCase(fetchRecomendetFilmData.rejected, (state, action) => {
+      .addCase(recomendetFilmData.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(personData.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(personData.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(personData.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(findDataReqest.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(findDataReqest.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(findDataReqest.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       }),
@@ -258,6 +373,9 @@ export const {
   fetchPremieresFilms,
   fetchRecomendetFilms,
   isFavorite,
+  fetchPersonData,
+  fetchFilterData,
+  fetchFindData,
 } = filmSlice.actions;
 
 export const filmsReducer = filmSlice.reducer;

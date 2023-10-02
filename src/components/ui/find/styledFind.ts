@@ -2,7 +2,7 @@ import { styled } from "styled-components";
 import { Theme } from "../../themeContext/themes";
 
 interface SectionFindProps {
-  themeStyles: Theme;
+  themestyles: Theme;
 }
 
 export const SectionFind = styled.div<SectionFindProps>`
@@ -10,23 +10,23 @@ export const SectionFind = styled.div<SectionFindProps>`
   height: 100%;
   padding: 20px 0;
 
-  font-size: ${({ themeStyles }) => themeStyles.fontSize};
-  background: ${({ themeStyles }) => themeStyles.background};
-  color: ${({ themeStyles }) => themeStyles.text};
+  font-size: ${({ themestyles }) => themestyles.fontSize};
+  background: ${({ themestyles }) => themestyles.background};
+  color: ${({ themestyles }) => themestyles.text};
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  overflow-y: scroll;
 `;
 
 export const SectionFindWrapper = styled.div`
   width: 90vw;
-  height: 90vh;
+  height: 90%;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(5, 400px);
   grid-gap: 20px;
+  margin-bottom: 20px;
   @media (width < 1000px) {
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(7, 400px);

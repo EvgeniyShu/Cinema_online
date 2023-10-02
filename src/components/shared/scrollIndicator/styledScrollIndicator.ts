@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Theme } from "../../../themeContext/themes";
+import { Theme } from "../../themeContext/themes";
 
 interface ProgressContainerProps {
   theme: Theme;

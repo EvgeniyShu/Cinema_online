@@ -33,31 +33,31 @@ export const Premium = () => {
         pages={5}
         ref={ref}
       >
-        <TextAreaPremium themeStyles={themeContextData.themeStyle}>
+        <TextAreaPremium themestyles={themeContextData.themeStyle}>
           <ParallaxLayer offset={0} speed={0.5}>
-            <TextAreaPremium themeStyles={themeContextData.themeStyle}>
+            <TextAreaPremium themestyles={themeContextData.themeStyle}>
               <h1>Фильмы</h1>
               <BlackLogo background={logo} />
             </TextAreaPremium>
             <TextAreaPremium
-              themeStyles={themeContextData.themeStyle}
+              themestyles={themeContextData.themeStyle}
             ></TextAreaPremium>
             <TextAreaPremium
-              themeStyles={themeContextData.themeStyle}
+              themestyles={themeContextData.themeStyle}
             ></TextAreaPremium>
-            <TextAreaPremium themeStyles={themeContextData.themeStyle}>
+            <TextAreaPremium themestyles={themeContextData.themeStyle}>
               <h1>Сериалы</h1>
               <BlackLogo
                 background={themeContextData.theme === "dark" ? logo3 : logo2}
               />
             </TextAreaPremium>
             <TextAreaPremium
-              themeStyles={themeContextData.themeStyle}
+              themestyles={themeContextData.themeStyle}
             ></TextAreaPremium>
             <TextAreaPremium
-              themeStyles={themeContextData.themeStyle}
+              themestyles={themeContextData.themeStyle}
             ></TextAreaPremium>
-            <TextAreaPremium themeStyles={themeContextData.themeStyle}>
+            <TextAreaPremium themestyles={themeContextData.themeStyle}>
               <h1>ТВ шоу</h1>
               <BlackLogo background={logo} />
             </TextAreaPremium>
@@ -66,11 +66,11 @@ export const Premium = () => {
         <ParallaxLayer sticky={{ start: 1, end: 1 }} speed={-1}>
           <Background background={bg1}></Background>
           <ParallaxLayer offset={0.8} speed={0.5}>
-            <Text themeStyles={themeContextData.themeStyle}>
+            <Text themestyles={themeContextData.themeStyle}>
               <p>Более 100500 фильмов в хорошем качестве</p>
               <CustomButton
                 onClick={() => navigate("/")}
-                themeStyles={themeContextData.themeStyle}
+                themestyles={themeContextData.themeStyle}
               >
                 Перейти
               </CustomButton>
@@ -82,11 +82,11 @@ export const Premium = () => {
         <ParallaxLayer sticky={{ start: 3, end: 3 }} speed={-1}>
           <Background background={bg2}></Background>
           <ParallaxLayer offset={1.9} speed={0.7}>
-            <Text themeStyles={themeContextData.themeStyle}>
+            <Text themestyles={themeContextData.themeStyle}>
               <p>Более 100500 сериалов в хорошем качестве</p>
               <CustomButton
                 onClick={() => navigate("/")}
-                themeStyles={themeContextData.themeStyle}
+                themestyles={themeContextData.themeStyle}
               >
                 Перейти
               </CustomButton>
@@ -97,17 +97,17 @@ export const Premium = () => {
         <ParallaxLayer sticky={{ start: 5, end: 5 }} speed={-1}>
           <Background background={bg3}></Background>
           <ParallaxLayer offset={1.9} speed={0.4}>
-            <Text themeStyles={themeContextData.themeStyle}>
+            <Text themestyles={themeContextData.themeStyle}>
               <p>Более 100500 ТВ шоу в хорошем качестве</p>
               <CustomButton
                 onClick={() => navigate("/")}
-                themeStyles={themeContextData.themeStyle}
+                themestyles={themeContextData.themeStyle}
               >
                 Перейти
               </CustomButton>
               <CustomButton
                 onClick={() => ref.current.scrollTo(0)}
-                themeStyles={themeContextData.themeStyle}
+                themestyles={themeContextData.themeStyle}
               >
                 Наверх
               </CustomButton>

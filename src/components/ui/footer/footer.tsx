@@ -13,7 +13,7 @@ export const Footer = () => {
   const themeContextData: InitialContextProps = useThemeContext();
   return (
     <>
-      <SectionFooter themeStyles={themeContextData.themeStyle}>
+      <SectionFooter themestyles={themeContextData.themeStyle}>
         <Wrapper>
           <a
             style={{ color: themeContextData.themeStyle.text }}

@@ -161,11 +161,11 @@ export const LoginPage = () => {
               ) : null}
               <div style={{ margin: 20 }}>
                 <CustomButton
-                  themeStyles={themeContextData.themeStyle}
+                  themestyles={themeContextData.themeStyle}
                   disabled={!isValid || !dirty}
                   type="submit"
                 >
-                  Отправить
+                  Подтвердить
                 </CustomButton>
               </div>
             </Form>

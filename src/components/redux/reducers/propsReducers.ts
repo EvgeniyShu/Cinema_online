@@ -140,3 +140,62 @@ export interface FindDataProps {
   sex?: string;
   webUrl?: string;
 }
+
+export interface Person {
+  age: number;
+  birthday: string;
+  birthplace: string;
+  death: string | null;
+  deathplace: string | null;
+  facts: [];
+
+  films: {
+    description: string;
+    filmId: number;
+    general: boolean;
+    nameEn: string;
+    nameRu: string;
+    professionKey: string;
+    rating: string;
+  }[];
+
+  growth: number;
+  hasAwards: number;
+  nameEn: string;
+  nameRu: string;
+  personId: number;
+  posterUrl: string;
+  profession: string;
+  sex: string;
+  spouses: [];
+}
+
+export interface FindDataProps {
+  countries?: { country: string }[];
+
+  genres?: { genre: string }[];
+  imdbId?: string;
+  kinopoiskId: number;
+  nameEn: null | string;
+  nameOriginal?: string;
+  nameRu: string;
+  posterUrl: string;
+  posterUrlPreview?: string;
+  ratingImdb?: number;
+  ratingKinopoisk?: number;
+  type?: string;
+  year?: number;
+  sex?: string;
+  webUrl?: string;
+}
+
+export interface Result {
+  dataArray: { total: number; totalPages: number; items: [] };
+  status: number | undefined;
+  errorText?: string;
+}
+
+export interface FilterProps {
+  countries: { id: number; country: string }[];
+  genres: { id: number; genre: string }[];
+}

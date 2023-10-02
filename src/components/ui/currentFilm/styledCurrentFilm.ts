@@ -2,48 +2,48 @@ import { styled } from "styled-components";
 import { Theme } from "../../themeContext/themes";
 
 interface SectionCurrentFilmProps {
-  themeStyles: Theme;
+  themestyles: Theme;
   background: string;
 }
 
 interface FilmDescriptionProps {
-  themeStyles: Theme;
+  themestyles: Theme;
   background: string;
 }
 
 interface CurrentFilmTextPops {
-  themeStyles: Theme;
+  themestyles: Theme;
 }
 
 interface PlayerPops {
-  themeStyles: Theme;
+  themestyles: Theme;
 }
 
 interface SimilarFilmPops {
-  themeStyles: Theme;
+  themestyles: Theme;
 }
 
 export const SectionCurrentFilm = styled.div<SectionCurrentFilmProps>`
   hight: 100%;
-  color: ${({ themeStyles }) => themeStyles.text};
-  font-size: ${({ themeStyles }) => themeStyles.fontSize};
+  color: ${({ themestyles }) => themestyles.text};
+  font-size: ${({ themestyles }) => themestyles.fontSize};
 
-  background: ${({ themeStyles }) => themeStyles.background};
+  background: ${({ themestyles }) => themestyles.background};
   text-align: center;
   font-family: "Sofia Sans", sans-serif;
 `;
 
 export const FilmDescription = styled.div<FilmDescriptionProps>`
   padding: 50px 0px;
-  color: ${({ themeStyles }) => themeStyles.text};
+  color: ${({ themestyles }) => themestyles.text};
   width: 90vw;
   margin: 0 auto;
-  background: ${({ themeStyles }) => themeStyles.linear},
+  background: ${({ themestyles }) => themestyles.linear},
     url("${(props) => props.background}") 50% 50% no-repeat;
   background-size: cover, cover;
   @media (width < 1050px) {
-    background: ${({ themeStyles }) => themeStyles.linear},
-      ${({ themeStyles }) => themeStyles.text};
+    background: ${({ themestyles }) => themestyles.linear},
+      ${({ themestyles }) => themestyles.body};
   }
 `;
 
@@ -84,7 +84,7 @@ export const CurrentFilmText = styled.div<CurrentFilmTextPops>`
   margin-right: 50px;
   padding: 50px;
   text-align: right;
-  background: ${({ themeStyles }) => themeStyles.linear};
+  background: ${({ themestyles }) => themestyles.linear};
   @media (width < 1050px) {
     margin-right: 20px;
     padding: 10px;
@@ -103,26 +103,26 @@ export const SimilarFilmsWrap = styled.div<SimilarFilmPops>`
   align-items: center;
   gap: 10px;
   width: 100%;
-  height: 50vh;
+  height: 100%;
   overflow-x: scroll;
   margin: 0 auto 100px auto;
-  ::-webkit-scrollbar {
+  &::-webkit-scrollbar {
     width: 10px;
   }
 
-  ::-webkit-scrollbar-track {
+  &::-webkit-scrollbar-track {
     border-radius: 5px;
-    background-color: ${({ themeStyles }) => themeStyles.background};
-    border: 1px solid ${({ themeStyles }) => themeStyles.text};
+    background-color: ${({ themestyles }) => themestyles.background};
+    border: 1px solid ${({ themestyles }) => themestyles.text};
   }
 
-  ::-webkit-scrollbar-thumb {
+  &::-webkit-scrollbar-thumb {
     border-radius: 5px;
-    background-color: ${({ themeStyles }) => themeStyles.text};
+    background-color: ${({ themestyles }) => themestyles.text};
   }
 
-  ::-webkit-scrollbar-corner {
-    background-color: ${({ themeStyles }) => themeStyles.text};
+  &::-webkit-scrollbar-corner {
+    background-color: ${({ themestyles }) => themestyles.text};
   }
 
   @media (width < 600px) {
@@ -132,7 +132,7 @@ export const SimilarFilmsWrap = styled.div<SimilarFilmPops>`
 
 export const SimilarFilmsImg = styled.img`
   border-radius: 10px;
-  height: 400px;
+  height: 340px;
 `;
 
 export const BasicTabsrap = styled.div`
@@ -152,7 +152,7 @@ export const Player = styled.div<PlayerPops>`
   align-items: center;
   justify-content: center;
 
-  border: 1px solid ${({ themeStyles }) => themeStyles.text};
+  border: 1px solid ${({ themestyles }) => themestyles.text};
 `;
 
 export const SliderWrapper = styled.div`

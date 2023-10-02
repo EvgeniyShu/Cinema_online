@@ -4,28 +4,28 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AppDispatch } from "./components/redux/store/reduxStore";
 import {
   BannerFilmData,
-  fetchTopFilmData,
+  topFilmData,
   premieresFilmData,
+  filterData,
 } from "./components/redux/reducers/reduxReducers";
 import Layout from "./components/layout";
-
-import { HelloPage } from "./components/ui/helloPage/helloPage";
-import { ThemeContextProvider } from "./components/themeContext/themes";
-import { CurrrentFilm } from "./components/ui/currentFilm/currentFilm";
-import { LoginPage } from "./components/ui/loginPage/loginPage";
-
-import { Empty } from "./components/ui/empty/empty";
-import { Find } from "./components/ui/find/find";
-import { About } from "./components/ui/about/about";
 import {
   AuthContextProvider,
   PrivateRoute,
 } from "./components/authContext/authContext";
-
-import { Premium } from "./components/ui/premium/premium";
-
+import { ThemeContextProvider } from "./components/themeContext/themes";
+import {
+  About,
+  Account,
+  CurrentFilm,
+  Empty,
+  Find,
+  HelloPage,
+  LoginPage,
+  Person,
+  Premium,
+} from "./components/ui/components";
 import "./components/ui/loginPage/loginPage.css";
-import { Account } from "./components/ui/account/account";
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();
@@ -34,8 +34,11 @@ function App() {
     dispatch(BannerFilmData());
     dispatch(premieresFilmData());
     setTimeout(() => {
-      dispatch(fetchTopFilmData());
+      dispatch(topFilmData());
     }, 1000);
+    setTimeout(() => {
+      dispatch(filterData());
+    }, 2000);
   }, []);
 
   return (
@@ -45,10 +48,11 @@ function App() {
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route index element={<HelloPage />} />
-              <Route path="film/:id" element={<CurrrentFilm />} />
+              <Route path="film/:id" element={<CurrentFilm />} />
               <Route path="login" element={<LoginPage />} />
               <Route path="find/:search" element={<Find />} />
               <Route path="about" element={<About />} />
+              <Route path="person/:id" element={<Person />} />
               <Route
                 path="premium"
                 element={

@@ -11,7 +11,7 @@ interface LogoProps {
 }
 
 interface TextAreaPremiumProps {
-  themeStyles: Theme;
+  themestyles: Theme;
 }
 
 export const SectionPremium = styled.div`
@@ -31,9 +31,9 @@ export const Background = styled.div<BackgroundProps>`
 `;
 
 export const TextAreaPremium = styled.div<TextAreaPremiumProps>`
-  font-size: ${({ themeStyles }) => themeStyles.fontSize};
-  background: ${({ themeStyles }) => themeStyles.background};
-  color: ${({ themeStyles }) => themeStyles.text};
+  font-size: ${({ themestyles }) => themestyles.fontSize};
+  background: ${({ themestyles }) => themestyles.background};
+  color: ${({ themestyles }) => themestyles.text};
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -45,9 +45,9 @@ export const TextAreaPremium = styled.div<TextAreaPremiumProps>`
 `;
 
 export const Text = styled.div<TextAreaPremiumProps>`
-  font-size: ${({ themeStyles }) => themeStyles.fontSize};
-  background: ${({ themeStyles }) => themeStyles.background};
-  color: ${({ themeStyles }) => themeStyles.text};
+  font-size: ${({ themestyles }) => themestyles.fontSize};
+  background: ${({ themestyles }) => themestyles.background};
+  color: ${({ themestyles }) => themestyles.text};
   width: 100vw;
   height: 20vh;
   display: flex;

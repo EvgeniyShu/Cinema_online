@@ -1,112 +1,90 @@
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import Pagination from "@mui/material/Pagination";
+import CircularProgress from "@mui/material/CircularProgress/CircularProgress";
+import { Url } from "./functions";
+import { AppDispatch, useAppSelector } from "../../redux/store/reduxStore";
 import {
   InitialContextProps,
   useThemeContext,
 } from "../../themeContext/themes";
 import { SectionFind, SectionFindWrapper } from "./styledFind";
-import { useEffect, useState } from "react";
-import { FindDataProps } from "./findProps";
 import { RotateCard } from "../../shared/rotateCard/rotate";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../redux/store/reduxStore";
-import Pagination from "@mui/material/Pagination";
+import { ScrollIndicator } from "../../shared/scrollIndicator/scrollIndicator";
+import { findDataReqest } from "../../redux/reducers/reduxReducers";
 
 export const Find = () => {
   const themeContextData: InitialContextProps = useThemeContext();
   const dataFromNavigate = useLocation();
-  const dispatch = useDispatch<AppDispatch>();
-
-  const [searchResult, setSearchResult] = useState<Array<FindDataProps>>([]);
-  const [pages, setPages] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const { find, select } = dataFromNavigate.state;
+  const { filter } = useAppSelector((state) => state);
+  const dispatch = useDispatch<AppDispatch>();
 
-  const Url = (find: string, select: string): RequestInfo => {
-    const result = "";
-    if (find) {
-      switch (select) {
-        case "name": {
-          return (
-            result +
-            `https://kinopoiskapiunofficial.tech/api/v2.2/films?order=RATING&type=ALL&ratingFrom=0&ratingTo=10&keyword=${encodeURI(
-              find
-            )}&page=${currentPage}`
-          );
-        }
-        case "person": {
-          return (
-            result +
-            `https://kinopoiskapiunofficial.tech/api/v1/persons?name=${encodeURI(
-              find
-            )}&page=${currentPage}`
-          );
-        }
-        case "year": {
-          return (
-            result +
-            `https://kinopoiskapiunofficial.tech/api/v2.2/films?order=RATING&type=ALL&ratingFrom=0&ratingTo=10&yearFrom=${find}&yearTo=${find}&page=${currentPage}`
-          );
-        }
-      }
-    } else {
-      return (
-        result +
-        "https://kinopoiskapiunofficial.tech/api/v2.2/films?order=RATING&type=ALL&ratingFrom=0&ratingTo=10&keyword=%D0%BC%D1%81%D1%82%D0%B8%D1%82%D0%B5%D0%BB%D0%B8&page=${currentPage}"
-      );
-    }
-    return result;
+  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    setCurrentPage(value);
   };
 
-  const filteredFilmsData = () => {
-    fetch(Url(find, select), {
-      method: "GET",
-      headers: {
-        "X-API-KEY": "992d39b4-9cf2-4a5a-b0f2-3c3fa2df9f90",
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((json) => {
-        console.log(json);
-        setPages(json.totalPages);
-        setSearchResult(json.items);
-      });
-  };
   useEffect(() => {
-    filteredFilmsData();
+    dispatch(findDataReqest(Url(find, select, currentPage, filter)));
   }, [find, select, currentPage]);
 
-  return (
-    <SectionFind themeStyles={themeContextData.themeStyle}>
-      <div
-        style={{
-          margin: "10px auto",
-        }}
-      >
-        <Pagination
-          count={pages}
-          variant="outlined"
-          shape="rounded"
-          color="standard"
-          defaultPage={currentPage}
-          onChange={(_, page: number) => setCurrentPage(page)}
-          sx={{
-            bgcolor: themeContextData.themeStyle.body,
-          }}
-        />
+  const { findData, error, loading } = useAppSelector((state) => state);
+  const { data: searchResult, pagesCount: pages } = findData;
+
+  if (loading) {
+    return (
+      <div style={{ padding: 200, color: themeContextData.themeStyle.text }}>
+        <CircularProgress color="secondary" />{" "}
+        <p>Загрузка данных с сервера...</p>
       </div>
-      <SectionFindWrapper>
-        {searchResult.map((item) => (
-          <div key={item.kinopoiskId} style={{ position: "relative" }}>
-            <RotateCard
-              backgroundImg={item.posterUrl}
-              id={item.kinopoiskId}
-              text={item.nameRu}
-              rating={item.ratingKinopoisk}
-            />
+    );
+  }
+
+  return (
+    <SectionFind themestyles={themeContextData.themeStyle}>
+      {error ? (
+        <p style={{ padding: 200, height: "calc(100vh - 670px)" }}>
+          Ошибка в получении данных с сервера
+        </p>
+      ) : (
+        <>
+          <div
+            style={{
+              margin: "10px auto",
+            }}
+          >
+            <p>Поиск по запросу: {find}</p>
           </div>
-        ))}
-      </SectionFindWrapper>
+          <SectionFindWrapper>
+            {searchResult.map((item) => (
+              <div key={item.kinopoiskId} style={{ position: "relative" }}>
+                <RotateCard
+                  backgroundImg={item.posterUrl}
+                  id={item.kinopoiskId}
+                  text={item.nameRu}
+                  rating={item.ratingKinopoisk}
+                  choise={select === "person" ? "person" : "film"}
+                />
+              </div>
+            ))}
+          </SectionFindWrapper>
+          <ScrollIndicator />
+
+          <Pagination
+            count={pages}
+            variant="outlined"
+            shape="rounded"
+            color="standard"
+            page={currentPage}
+            onChange={handleChange}
+            sx={{
+              bgcolor: themeContextData.themeStyle.body,
+            }}
+          />
+        </>
+      )}
     </SectionFind>
   );
 };
