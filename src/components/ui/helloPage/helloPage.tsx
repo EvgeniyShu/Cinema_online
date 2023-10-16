@@ -1,13 +1,16 @@
-import { AppDispatch, useAppSelector } from "../../redux/store/reduxStore";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress/CircularProgress";
 import Pagination from "@mui/material/Pagination";
-
+import { motion } from "framer-motion";
 import {
   InitialContextProps,
   useThemeContext,
 } from "../../themeContext/themes";
 import { RotateCard } from "../../shared/rotateCard/rotate";
 import { Banner } from "../banner/banner";
+import { recomendetFilmData } from "../../redux/reducers/reduxReducers";
+import { AppDispatch, useAppSelector } from "../../redux/store/reduxStore";
 import {
   AllFilmRecomendations,
   BannerWrap,
@@ -16,9 +19,6 @@ import {
   FilmRecomendations,
   HelloPageSection,
 } from "./styledHelloPage";
-import { useDispatch } from "react-redux";
-import { recomendetFilmData } from "../../redux/reducers/reduxReducers";
-import { useEffect, useState } from "react";
 import { ScrollIndicator } from "../../shared/scrollIndicator/scrollIndicator";
 
 export const HelloPage = () => {
@@ -32,18 +32,42 @@ export const HelloPage = () => {
     recomendetFilm,
     error,
     loading,
-  } = useAppSelector((state) => state);
+  } = useAppSelector((state) => state.films);
 
   const { films: recomendet, pagesCount } = recomendetFilm;
 
   useEffect(() => {
-    dispatch(recomendetFilmData(page + 1));
+    dispatch(recomendetFilmData(page));
   }, [page]);
+
+  const animation = {
+    hidden: {
+      y: 100,
+      opacity: 0,
+    },
+    visible: (custom: number): any => ({
+      y: 0,
+      opacity: 1,
+      transition: { delay: custom * 0.2 },
+    }),
+  };
+
+  const animationHorizontal = {
+    hidden: {
+      x: 200,
+      opacity: 0,
+    },
+    visible: {
+      x: 0,
+      opacity: 1,
+    },
+  };
 
   if (loading) {
     return (
       <div style={{ padding: 200 }}>
-        <CircularProgress color="secondary" /> Loading...
+        <CircularProgress color="secondary" />{" "}
+        <p>Загрузка данных с сервера...</p>
       </div>
     );
   }
@@ -51,8 +75,8 @@ export const HelloPage = () => {
   return (
     <HelloPageSection themestyles={themeContextData.themeStyle}>
       {error ? (
-        <div style={{ padding: 200, height: "calc(100vh - 670px)" }}>
-          Ошибка в получении данных с сервера
+        <div style={{ padding: 200, height: "calc(100vh - 615px)" }}>
+          <p> Ошибка в получении данных с сервера</p>
         </div>
       ) : (
         <>
@@ -61,10 +85,24 @@ export const HelloPage = () => {
           </BannerWrap>
 
           <FilmOffer themestyles={themeContextData.themeStyle}>
-            <div>Премьеры</div>
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              variants={animation}
+              custom={1}
+            >
+              Премьеры
+            </motion.div>
             <FilmRecomendations>
               {premiere.map((item) => (
-                <div key={item.kinopoiskId} style={{ position: "relative" }}>
+                <motion.div
+                  initial="hidden"
+                  whileInView="visible"
+                  variants={animationHorizontal}
+                  viewport={{ amount: 0.15, once: true }}
+                  key={item.kinopoiskId}
+                  style={{ position: "relative" }}
+                >
                   <CardSize>
                     <RotateCard
                       backgroundImg={item.posterUrl}
@@ -74,35 +112,61 @@ export const HelloPage = () => {
                       choise={"film"}
                     />
                   </CardSize>
-                </div>
+                </motion.div>
               ))}
             </FilmRecomendations>
           </FilmOffer>
 
           <FilmOffer themestyles={themeContextData.themeStyle}>
-            <div>Топ фильмы</div>
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              variants={animation}
+              custom={1}
+            >
+              Фильмы: топ 20
+            </motion.div>
             <FilmRecomendations>
               {films.map((item) => (
-                <div key={item.filmId} style={{ position: "relative" }}>
+                <motion.div
+                  initial="hidden"
+                  whileInView="visible"
+                  variants={animationHorizontal}
+                  viewport={{ amount: 0.1, once: true }}
+                  key={item.kinopoiskId}
+                  style={{ position: "relative" }}
+                >
                   <CardSize>
                     <RotateCard
                       backgroundImg={item.posterUrl}
-                      id={item.filmId}
+                      id={item.kinopoiskId}
                       text={item.nameRu}
-                      rating={item.rating}
+                      rating={item.ratingImdb}
                       choise={"film"}
                     />
                   </CardSize>
-                </div>
+                </motion.div>
               ))}
             </FilmRecomendations>
           </FilmOffer>
           <FilmOffer themestyles={themeContextData.themeStyle} key={page}>
-            <div>Рекомендаии</div>
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              variants={animation}
+              custom={1}
+            >
+              Рекомендации
+            </motion.div>
             <AllFilmRecomendations>
-              {recomendet.map((item) => (
-                <div
-                  key={item.filmId}
+              {recomendet.map((item, index) => (
+                <motion.div
+                  initial="hidden"
+                  whileInView="visible"
+                  variants={animation}
+                  viewport={{ amount: 0.15, once: true }}
+                  custom={(index + 1) % 2 ? 1 : 2}
+                  key={item.kinopoiskId}
                   style={{
                     position: "relative",
                     alignSelf: "center",
@@ -112,13 +176,13 @@ export const HelloPage = () => {
                   <CardSize>
                     <RotateCard
                       backgroundImg={item.posterUrl}
-                      id={item.filmId}
+                      id={item.kinopoiskId}
                       text={item.nameRu}
-                      rating={Number(item.rating)}
+                      rating={Number(item.ratingImdb)}
                       choise={"film"}
                     />
                   </CardSize>
-                </div>
+                </motion.div>
               ))}
             </AllFilmRecomendations>
             <div
@@ -128,7 +192,7 @@ export const HelloPage = () => {
               }}
             >
               <Pagination
-                count={pagesCount - 1}
+                count={pagesCount}
                 variant="outlined"
                 shape="rounded"
                 color="standard"

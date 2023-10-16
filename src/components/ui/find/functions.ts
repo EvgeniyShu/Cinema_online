@@ -3,13 +3,17 @@ import { useAppSelector } from "../../redux/store/reduxStore";
 
 export const getGenreId = (genre: string, filter: FilterProps) => {
   const { genres } = filter;
-  const arr = genres.filter((item) => item.genre === genre);
+  const arr = genres.filter(
+    (item) => item.genre.toLowerCase() === genre.toLowerCase()
+  );
   return arr[0].id;
 };
 
 export const getCountryId = (country: string, filter: FilterProps) => {
   const { countries } = filter;
-  const arr = countries.filter((item) => item.country === country);
+  const arr = countries.filter(
+    (item) => item.country.toLowerCase() === country.toLowerCase()
+  );
   return arr[0].id;
 };
 

@@ -1,31 +1,17 @@
 import React, { FC, useContext, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Navigate } from "react-router-dom";
+import { AppDispatch, useAppSelector } from "../redux/store/reduxStore";
 
 export const AuthContext = React.createContext({} as AuthContextProps);
 export const useAuthContext = () => useContext(AuthContext);
 
 export interface AuthContextProps {
   userAuth: boolean;
-  login: () => void;
-  logout: () => void;
-  daysOfPremium: string;
-  setDaysOfPremium: React.Dispatch<React.SetStateAction<string>>;
-  values: {
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-    confirmPassword: string;
-  };
-  setValues: React.Dispatch<
-    React.SetStateAction<{
-      firstName: string;
-      lastName: string;
-      email: string;
-      password: string;
-      confirmPassword: string;
-    }>
-  >;
+  id: string;
+  signUpVisible: boolean;
+  visible: () => void;
+  notVisible: () => void;
 }
 
 interface AuthContextProviderProps {
@@ -39,32 +25,23 @@ interface PrivateRouteProps {
 export const AuthContextProvider: FC<AuthContextProviderProps> = ({
   children,
 }) => {
-  const [isUserAuth, setIsUserAuth] = useState(false);
-  const [daysOfPremium, setDaysOfPremium] = useState("");
-  const [values, setValues] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
+  const [signUpVisible, setSignUpVisible] = useState(true);
+  const { id } = useAppSelector((state) => state.auth.user);
 
-  const logIn = () => {
-    setIsUserAuth(true);
+  const visible = () => {
+    setSignUpVisible(true);
   };
 
-  const logOut = () => {
-    setIsUserAuth(false);
+  const notVisible = () => {
+    setSignUpVisible(false);
   };
 
   const initialAuth: AuthContextProps = {
-    userAuth: isUserAuth,
-    login: logIn,
-    logout: logOut,
-    daysOfPremium: daysOfPremium,
-    setDaysOfPremium,
-    values,
-    setValues,
+    userAuth: !!id,
+    id: id,
+    signUpVisible: signUpVisible,
+    visible: visible,
+    notVisible: notVisible,
   };
 
   return (

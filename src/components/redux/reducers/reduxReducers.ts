@@ -1,5 +1,5 @@
 import Api from "../../api/axiosConfig";
-
+import { AxiosError } from "axios";
 import {
   PayloadAction,
   createAsyncThunk,
@@ -9,15 +9,14 @@ import {
 import {
   BannerFilmsProps,
   FilmProps,
-  FilterProps,
-  FindDataProps,
-  Person,
   PosterProps,
   PremierFilm,
   RecomendetFilm,
-  Result,
+  ResultError,
+  ResultOk,
   currentFilmProps,
 } from "./propsReducers";
+import { addFavoritesFirebase } from "../../../firebase";
 
 export interface InitialStateProps {
   BannerFilmData: BannerFilmsProps[];
@@ -25,13 +24,10 @@ export interface InitialStateProps {
   Favorite: currentFilmProps[];
   currentFilm: currentFilmProps[];
   recomendetFilm: { films: RecomendetFilm[]; pagesCount: number };
-  findData: { data: FindDataProps[]; pagesCount: number };
   posterFilm: Array<PosterProps>;
   premieresFilm: PremierFilm[];
-  filter: FilterProps;
   similarFilm: any[];
   isFavorFilm: boolean;
-  Person: Person[];
   loading: boolean;
   error: string | null | unknown;
 }
@@ -41,14 +37,11 @@ const initialState: InitialStateProps = {
   TopFilmData: [],
   premieresFilm: [],
   recomendetFilm: { films: [], pagesCount: 0 },
-  findData: { data: [], pagesCount: 0 },
   Favorite: [],
   currentFilm: [],
   similarFilm: [],
-  filter: { countries: [], genres: [] },
   posterFilm: [],
   isFavorFilm: false,
-  Person: [],
   loading: false,
   error: null,
 };
@@ -58,11 +51,12 @@ export const BannerFilmData = createAsyncThunk(
   async (_, { dispatch, rejectWithValue }) => {
     try {
       const result: any = await Api.fetchData(
-        "v2.2/films/top?type=TOP_AWAIT_FILMS&page=1"
+        "v2.2/films/collections?type=CLOSES_RELEASES&page=1"
       );
-      dispatch(fetchBannerFilms(result.dataArray.films));
-    } catch (error: any) {
-      return rejectWithValue(error.message);
+      dispatch(fetchBannerFilms(result.dataArray.items));
+    } catch (error) {
+      const err = error as AxiosError;
+      return rejectWithValue(err.message);
     }
   }
 );
@@ -72,11 +66,12 @@ export const premieresFilmData = createAsyncThunk(
   async (_, { dispatch, rejectWithValue }) => {
     try {
       const result: any = await Api.fetchData(
-        "v2.2/films/premieres?year=2023&month=SEPTEMBER"
+        "v2.2/films/collections?type=FAMILY&page=1"
       );
       dispatch(fetchPremieresFilms(result.dataArray.items));
-    } catch (error: any) {
-      return rejectWithValue(error.message);
+    } catch (error) {
+      const err = error as AxiosError;
+      return rejectWithValue(err.message);
     }
   }
 );
@@ -85,10 +80,13 @@ export const topFilmData = createAsyncThunk(
   "films/fetchTopFilms",
   async (_, { dispatch, rejectWithValue }) => {
     try {
-      const result: any = await Api.fetchData("v2.2/films/top");
-      dispatch(fetchFilms(result.dataArray.films));
-    } catch (error: any) {
-      return rejectWithValue(error.message);
+      const result: any = await Api.fetchData(
+        `v2.2/films/collections?type=TOP_250_MOVIES&page=1`
+      );
+      dispatch(fetchFilms(result.dataArray.items));
+    } catch (error) {
+      const err = error as AxiosError;
+      return rejectWithValue(err.message);
     }
   }
 );
@@ -98,16 +96,17 @@ export const recomendetFilmData = createAsyncThunk(
   async (id: number, { dispatch, rejectWithValue }) => {
     try {
       const result: any = await Api.fetchData(
-        `v2.2/films/top?type=TOP_250_BEST_FILMS&page=${id}`
+        `v2.2/films/collections?type=TOP_POPULAR_MOVIES&page=${id}`
       );
       dispatch(
         fetchRecomendetFilms({
-          film: result.dataArray.films,
-          allPages: result.dataArray.pagesCount,
+          film: result.dataArray.items,
+          allPages: result.dataArray.totalPages,
         })
       );
-    } catch (error: any) {
-      return rejectWithValue(error.message);
+    } catch (error) {
+      const err = error as AxiosError;
+      return rejectWithValue(err.message);
     }
   }
 );
@@ -118,8 +117,9 @@ export const currentFilmData = createAsyncThunk(
     try {
       const result: any = await Api.fetchData(`v2.2/films/${id}`);
       dispatch(fetchCurrentFilm(result.dataArray));
-    } catch (error: any) {
-      return rejectWithValue(error.message);
+    } catch (error) {
+      const err = error as AxiosError;
+      return rejectWithValue(err.message);
     }
   }
 );
@@ -130,8 +130,9 @@ export const posterData = createAsyncThunk(
     try {
       const result: any = await Api.fetchData(`v2.2/films/${id}/images`);
       dispatch(fetchPosterOfFilm(result.dataArray.items));
-    } catch (error: any) {
-      return rejectWithValue(error.message);
+    } catch (error) {
+      const err = error as AxiosError;
+      return rejectWithValue(err.message);
     }
   }
 );
@@ -142,50 +143,9 @@ export const similarFilmsData = createAsyncThunk(
     try {
       const result: any = await Api.fetchData(`v2.2/films/${id}/similars`);
       dispatch(fetchSimilarFilm(result.dataArray.items));
-    } catch (error: any) {
-      return rejectWithValue(error.message);
-    }
-  }
-);
-
-export const personData = createAsyncThunk(
-  "films/fetchPersonData",
-  async (id: number, { dispatch, rejectWithValue }) => {
-    try {
-      const result: any = await Api.fetchData(`/v1/staff/${id}`);
-
-      dispatch(fetchPersonData(result.dataArray));
-    } catch (error: any) {
-      return rejectWithValue(error.message);
-    }
-  }
-);
-
-export const filterData = createAsyncThunk(
-  "films/fetchfilterData",
-  async (_, { dispatch, rejectWithValue }) => {
-    try {
-      const result: any = await Api.fetchData("/v2.2/films/filters");
-      dispatch(fetchFilterData(result.dataArray));
-    } catch (error: any) {
-      return rejectWithValue(error.message);
-    }
-  }
-);
-
-export const findDataReqest = createAsyncThunk(
-  "films/fetchFindData",
-  async (url: string, { dispatch, rejectWithValue }) => {
-    try {
-      const result: any = await Api.fetchData(`${url}`);
-      dispatch(
-        fetchFindData({
-          data: result.dataArray.items,
-          allPages: result.dataArray.totalPages,
-        })
-      );
-    } catch (error: any) {
-      return rejectWithValue(error.message);
+    } catch (error) {
+      const err = error as AxiosError;
+      return rejectWithValue(err.message);
     }
   }
 );
@@ -225,49 +185,46 @@ export const filmSlice = createSlice({
     fetchSimilarFilm: (state, action: PayloadAction<any[]>) => {
       state.similarFilm = action.payload;
     },
-    fetchPersonData: (state, action: PayloadAction<Person>) => {
-      state.Person.length = 0;
-      state.Person.push(action.payload);
-    },
-    fetchFindData: (
+
+    addToFavorites: (
       state,
-      action: PayloadAction<{ data: Array<FindDataProps>; allPages: number }>
+      action: PayloadAction<{ id: string; filmId: number }>
     ) => {
-      state.findData.data = action.payload.data;
-      state.findData.pagesCount = action.payload.allPages;
-    },
-    addToFavorites: (state, action: PayloadAction<number>) => {
       const [favorFilm] = current(state.currentFilm).filter(
-        (item) => item.kinopoiskId === action.payload
+        (item) => item.kinopoiskId === action.payload.filmId
       );
+
       const exzist = current(state.Favorite).filter(
         (item) => item.kinopoiskId === favorFilm.kinopoiskId
       );
       const addFavor = () => {
         return !exzist.length ? state.Favorite.push(favorFilm) : "";
       };
+
       addFavor();
+      addFavoritesFirebase(action.payload.id, state.Favorite);
     },
-    removeFromFavorites: (state, action: PayloadAction<number>) => {
+    fetchFavoritesFromFirestore: (
+      state,
+      action: PayloadAction<currentFilmProps[]>
+    ) => {
+      state.Favorite = action.payload;
+    },
+
+    removeFromFavorites: (
+      state,
+      action: PayloadAction<{ id: string; filmId: number }>
+    ) => {
       state.Favorite = current(state.Favorite).filter(
-        (item) => item.kinopoiskId !== action.payload
+        (item) => item.kinopoiskId !== action.payload.filmId
       );
+      addFavoritesFirebase(action.payload.id, state.Favorite);
     },
     isFavorite: (state, action: PayloadAction<number>) => {
       const isFavor = current(state.Favorite).filter(
         (item) => item.kinopoiskId === action.payload
       );
       state.isFavorFilm = isFavor.length ? true : false;
-    },
-    fetchFilterData: (
-      state,
-      action: PayloadAction<{
-        countries: { id: number; country: string }[];
-        genres: { id: number; genre: string }[];
-      }>
-    ) => {
-      state.filter.genres = action.payload.genres;
-      state.filter.countries = action.payload.countries;
     },
   },
   extraReducers: (builder) =>
@@ -337,28 +294,6 @@ export const filmSlice = createSlice({
       .addCase(recomendetFilmData.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      })
-      .addCase(personData.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(personData.fulfilled, (state) => {
-        state.loading = false;
-      })
-      .addCase(personData.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
-      .addCase(findDataReqest.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(findDataReqest.fulfilled, (state) => {
-        state.loading = false;
-      })
-      .addCase(findDataReqest.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
       }),
 });
 
@@ -373,9 +308,7 @@ export const {
   fetchPremieresFilms,
   fetchRecomendetFilms,
   isFavorite,
-  fetchPersonData,
-  fetchFilterData,
-  fetchFindData,
+  fetchFavoritesFromFirestore,
 } = filmSlice.actions;
 
 export const filmsReducer = filmSlice.reducer;

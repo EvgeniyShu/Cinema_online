@@ -1,9 +1,11 @@
-import React from "react";
+import React, { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
-import App from "./App";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./components/redux/store/reduxStore";
+import App from "./App";
+import "./index.css";
+import "./firebase";
 import "./App.css";
 
 const root = ReactDOM.createRoot(
@@ -12,7 +14,13 @@ const root = ReactDOM.createRoot(
 root.render(
   <Provider store={store}>
     <div className="container">
-      <App />
+      <StrictMode>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/*" element={<App />} />
+          </Routes>
+        </BrowserRouter>
+      </StrictMode>
     </div>
   </Provider>
 );

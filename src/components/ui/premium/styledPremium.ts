@@ -15,8 +15,8 @@ interface TextAreaPremiumProps {
 }
 
 export const SectionPremium = styled.div`
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   overflow-y: scroll;
 `;
 

@@ -1,13 +1,14 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 import { AppDispatch } from "./components/redux/store/reduxStore";
 import {
   BannerFilmData,
   topFilmData,
   premieresFilmData,
-  filterData,
 } from "./components/redux/reducers/reduxReducers";
+import { filterData } from "./components/redux/reducers/findReducer";
 import Layout from "./components/layout";
 import {
   AuthContextProvider,
@@ -21,36 +22,36 @@ import {
   Empty,
   Find,
   HelloPage,
-  LoginPage,
+  SignUp,
   Person,
   Premium,
+  FindPage,
+  PremiumSlider,
 } from "./components/ui/components";
-import "./components/ui/loginPage/loginPage.css";
+import "./components/ui/SignUp/signUp.css";
 
-function App() {
+export default function App() {
   const dispatch = useDispatch<AppDispatch>();
+  const location = useLocation();
 
   useEffect(() => {
     dispatch(BannerFilmData());
     dispatch(premieresFilmData());
-    setTimeout(() => {
-      dispatch(topFilmData());
-    }, 1000);
-    setTimeout(() => {
-      dispatch(filterData());
-    }, 2000);
-  }, []);
+    dispatch(topFilmData());
+    dispatch(filterData());
+  }, [dispatch]);
 
   return (
     <AuthContextProvider>
       <ThemeContextProvider>
-        <Router>
-          <Routes>
+        <AnimatePresence>
+          <Routes location={location} key={location.pathname}>
             <Route path="/" element={<Layout />}>
               <Route index element={<HelloPage />} />
               <Route path="film/:id" element={<CurrentFilm />} />
-              <Route path="login" element={<LoginPage />} />
+              <Route path="login" element={<SignUp />} />
               <Route path="find/:search" element={<Find />} />
+              <Route path="find" element={<FindPage />} />
               <Route path="about" element={<About />} />
               <Route path="person/:id" element={<Person />} />
               <Route
@@ -61,6 +62,7 @@ function App() {
                   </PrivateRoute>
                 }
               ></Route>
+              <Route path="premium/:search" element={<PremiumSlider />}></Route>
               <Route
                 path="account"
                 element={
@@ -72,10 +74,8 @@ function App() {
               <Route path="*" element={<Empty />} />
             </Route>
           </Routes>
-        </Router>
+        </AnimatePresence>
       </ThemeContextProvider>
     </AuthContextProvider>
   );
 }
-
-export default App;

@@ -62,7 +62,7 @@ export const FilmOffer = styled.div<FilmOfferProps>`
 
 export const FilmRecomendations = styled.div`
   display: flex;
-  gap: 20px;
+  gap: 35px;
   height: 300px;
   padding: 20px 20px 40px 20px;
   overflow-x: scroll;

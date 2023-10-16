@@ -1,15 +1,18 @@
 export interface FilmProps {
-  filmId: number;
-  nameRu: string;
-  nameEn: string;
-  year: string;
-  filmLength: string;
   countries: { country: string }[];
   genres: { genre: string }[];
-  rating: number;
-  ratingVoteCount: number;
+
+  imdbId: string;
+  kinopoiskId: number;
+  nameEn: null | string;
+  nameOriginal: string;
+  nameRu: string;
   posterUrl: string;
   posterUrlPreview: string;
+  ratingImdb: number;
+  ratingKinopoisk: number;
+  type: string;
+  year: number;
 }
 
 export interface currentFilmProps {
@@ -77,49 +80,52 @@ export interface PosterProps {
 
 export interface PremierFilm {
   countries: { country: string }[];
-  duration: number;
   genres: { genre: string }[];
+
+  imdbId: string;
   kinopoiskId: number;
-  nameEn: string;
+  nameEn: null | string;
+  nameOriginal: string;
   nameRu: string;
   posterUrl: string;
   posterUrlPreview: string;
-  premiereRu: string;
+  ratingImdb: number;
+  ratingKinopoisk: number;
+  type: string;
   year: number;
 }
 
 export interface RecomendetFilm {
   countries: { country: string }[];
-  filmId: number;
-  filmLength: string;
   genres: { genre: string }[];
-  isAfisha: number;
-  isRatingUp: null | boolean;
+
+  imdbId: string;
+  kinopoiskId: number;
   nameEn: null | string;
+  nameOriginal: string;
   nameRu: string;
   posterUrl: string;
   posterUrlPreview: string;
-  rating: string;
-  ratingChange?: null;
-  ratingVoteCount: number;
-  year: string;
+  ratingImdb: number;
+  ratingKinopoisk: number;
+  type: string;
+  year: number;
 }
 
 export interface BannerFilmsProps {
   countries: { country: string }[];
-  filmId: number;
-  filmLength: string;
   genres: { genre: string }[];
-  isAfisha: number;
-  isRatingUp: null | boolean;
+  imdbId: string;
+  kinopoiskId: number;
   nameEn: null | string;
-  nameRu: string;
+  nameOriginal: string;
+  nameRu: null | string;
   posterUrl: string;
   posterUrlPreview: string;
-  rating: string;
-  ratingChange?: null;
-  ratingVoteCount: number;
-  year: string;
+  ratingImdb: number;
+  ratingKinopoisk: number;
+  type: "FILM";
+  year: number;
 }
 
 export interface FindDataProps {
@@ -189,10 +195,14 @@ export interface FindDataProps {
   webUrl?: string;
 }
 
-export interface Result {
-  dataArray: { total: number; totalPages: number; items: [] };
+export interface ResultOk {
   status: number | undefined;
-  errorText?: string;
+  dataArray: any;
+}
+
+export interface ResultError {
+  status: number | undefined;
+  errorText: string;
 }
 
 export interface FilterProps {

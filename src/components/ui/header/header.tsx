@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import { signOut } from "firebase/auth";
 import MenuIcon from "@mui/icons-material/Menu";
-import LunchDiningIcon from "@mui/icons-material/LunchDining";
+import CloseIcon from "@mui/icons-material/Close";
 import SearchIcon from "@mui/icons-material/Search";
 import SearchOffIcon from "@mui/icons-material/SearchOff";
 import {
@@ -23,6 +24,11 @@ import {
   useAuthContext,
 } from "../../authContext/authContext";
 import { CustomButton } from "../../shared/customButton/customButton";
+import { SignIn } from "../signIn/signIn";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../redux/store/reduxStore";
+import { removeUser } from "../../redux/reducers/authReducer";
+import { auth } from "../../../firebase";
 
 export const Header = () => {
   const themeContextData: InitialContextProps = useThemeContext();
@@ -30,6 +36,8 @@ export const Header = () => {
   const logo = require("./favicon.png");
   const [activeMenu, setActiveMenu] = useState(false);
   const [activeSearch, setActiveSearch] = useState(false);
+
+  const dispatch = useDispatch<AppDispatch>();
 
   const changeMenu = () => {
     setActiveMenu((prev) => !prev);
@@ -39,13 +47,20 @@ export const Header = () => {
     setActiveSearch((prev) => !prev);
   };
 
+  const handleLogOut = async () => {
+    await signOut(auth);
+    authContext.visible();
+    dispatch(removeUser());
+    setTimeout(changeMenu, 1000);
+  };
+
   return (
     <>
       <SectionHeader theme={themeContextData.themeStyle}>
         <Wrapper>
           {activeMenu ? (
             <div style={{ cursor: "pointer" }} title="закрыть меню">
-              <LunchDiningIcon fontSize="large" onClick={changeMenu} />
+              <CloseIcon fontSize="large" onClick={changeMenu} />
             </div>
           ) : (
             <div style={{ cursor: "pointer" }} title="меню">
@@ -81,114 +96,138 @@ export const Header = () => {
           </SearchButton>
           <ThemeButton />
         </div>
+        {authContext.signUpVisible && <SignIn />}
       </SectionHeader>
 
       {activeMenu ? (
         <Menu theme={themeContextData.themeStyle}>
-          <NavLink
-            onClick={() => setTimeout(changeMenu, 1000)}
-            style={({ isActive }) => ({
-              backgroundColor: isActive
-                ? themeContextData.themeStyle.body
-                : themeContextData.themeStyle.background,
-              borderBottom: isActive
-                ? `3px solid ${themeContextData.themeStyle.text}`
-                : "",
-              textDecoration: "none",
-              color: themeContextData.themeStyle.text,
-              padding: 10,
-              borderRadius: 3,
-            })}
-            to="/"
-          >
-            Главная
-          </NavLink>
-          <NavLink
-            onClick={() => setTimeout(changeMenu, 1000)}
-            style={({ isActive }) => ({
-              backgroundColor: isActive
-                ? themeContextData.themeStyle.body
-                : themeContextData.themeStyle.background,
-              borderBottom: isActive
-                ? `3px solid ${themeContextData.themeStyle.text}`
-                : "",
-              textDecoration: "none",
-              color: themeContextData.themeStyle.text,
-              padding: 10,
-              borderRadius: 3,
-            })}
-            to="/premium"
-          >
-            Премиум
-          </NavLink>
           {authContext.userAuth ? (
-            <NavLink
-              onClick={() => setTimeout(changeMenu, 1000)}
-              style={({ isActive }) => ({
-                backgroundColor: isActive
-                  ? themeContextData.themeStyle.body
-                  : themeContextData.themeStyle.background,
-                borderBottom: isActive
-                  ? `3px solid ${themeContextData.themeStyle.text}`
-                  : "",
-                textDecoration: "none",
-                color: themeContextData.themeStyle.text,
-                padding: 10,
-                borderRadius: 3,
-              })}
-              to="/account"
-            >
-              Личный кабинет
-            </NavLink>
-          ) : (
-            <></>
-          )}
-          <NavLink
-            onClick={() => setTimeout(changeMenu, 1000)}
-            style={({ isActive }) => ({
-              backgroundColor: isActive
-                ? themeContextData.themeStyle.body
-                : themeContextData.themeStyle.background,
-              borderBottom: isActive
-                ? `3px solid ${themeContextData.themeStyle.text}`
-                : "",
-              textDecoration: "none",
-              color: themeContextData.themeStyle.text,
-              padding: 10,
-              borderRadius: 3,
-            })}
-            to="/about"
-          >
-            О нас
-          </NavLink>
-          {authContext.userAuth ? (
-            <div style={{ width: 86 }}>
-              <CustomButton
-                onClick={() => authContext.logout()}
-                themestyles={themeContextData.themeStyle}
+            <>
+              <NavLink
+                onClick={() => setTimeout(changeMenu, 1000)}
+                style={({ isActive }) => ({
+                  backgroundColor: isActive
+                    ? themeContextData.themeStyle.body
+                    : themeContextData.themeStyle.background,
+                  borderBottom: isActive
+                    ? `3px solid ${themeContextData.themeStyle.text}`
+                    : "",
+                  textDecoration: "none",
+                  color: themeContextData.themeStyle.text,
+                  padding: 10,
+                  borderRadius: 3,
+                })}
+                to="/"
               >
-                Выйти
-              </CustomButton>
-            </div>
+                Главная
+              </NavLink>
+              <NavLink
+                onClick={() => {
+                  setTimeout(changeMenu, 1000);
+                }}
+                style={({ isActive }) => ({
+                  backgroundColor: isActive
+                    ? themeContextData.themeStyle.body
+                    : themeContextData.themeStyle.background,
+                  borderBottom: isActive
+                    ? `3px solid ${themeContextData.themeStyle.text}`
+                    : "",
+                  textDecoration: "none",
+                  color: themeContextData.themeStyle.text,
+                  padding: 10,
+                  borderRadius: 3,
+                })}
+                to="/premium"
+              >
+                Премиум
+              </NavLink>
+
+              <NavLink
+                onClick={() => setTimeout(changeMenu, 1000)}
+                style={({ isActive }) => ({
+                  backgroundColor: isActive
+                    ? themeContextData.themeStyle.body
+                    : themeContextData.themeStyle.background,
+                  borderBottom: isActive
+                    ? `3px solid ${themeContextData.themeStyle.text}`
+                    : "",
+                  textDecoration: "none",
+                  color: themeContextData.themeStyle.text,
+                  padding: 10,
+                  borderRadius: 3,
+                })}
+                to="/account"
+              >
+                Личный кабинет
+              </NavLink>
+
+              <NavLink
+                onClick={() => setTimeout(changeMenu, 1000)}
+                style={({ isActive }) => ({
+                  backgroundColor: isActive
+                    ? themeContextData.themeStyle.body
+                    : themeContextData.themeStyle.background,
+                  borderBottom: isActive
+                    ? `3px solid ${themeContextData.themeStyle.text}`
+                    : "",
+                  textDecoration: "none",
+                  color: themeContextData.themeStyle.text,
+                  padding: 10,
+                  borderRadius: 3,
+                })}
+                to="/about"
+              >
+                О нас
+              </NavLink>
+
+              <div style={{ width: 86 }}>
+                <CustomButton
+                  onClick={handleLogOut}
+                  themestyles={themeContextData.themeStyle}
+                >
+                  Выйти
+                </CustomButton>
+              </div>
+            </>
           ) : (
-            <NavLink
-              onClick={() => setTimeout(changeMenu, 1000)}
-              style={({ isActive }) => ({
-                backgroundColor: isActive
-                  ? themeContextData.themeStyle.body
-                  : themeContextData.themeStyle.background,
-                borderBottom: isActive
-                  ? `3px solid ${themeContextData.themeStyle.text}`
-                  : "",
-                textDecoration: "none",
-                color: themeContextData.themeStyle.text,
-                padding: 10,
-                borderRadius: 3,
-              })}
-              to="/login"
-            >
-              Войти
-            </NavLink>
+            <>
+              <NavLink
+                onClick={() => setTimeout(changeMenu, 1000)}
+                style={({ isActive }) => ({
+                  backgroundColor: isActive
+                    ? themeContextData.themeStyle.body
+                    : themeContextData.themeStyle.background,
+                  borderBottom: isActive
+                    ? `3px solid ${themeContextData.themeStyle.text}`
+                    : "",
+                  textDecoration: "none",
+                  color: themeContextData.themeStyle.text,
+                  padding: 10,
+                  borderRadius: 3,
+                })}
+                to="/login"
+              >
+                создать аккаунт
+              </NavLink>
+              <NavLink
+                onClick={() => setTimeout(changeMenu, 1000)}
+                style={({ isActive }) => ({
+                  backgroundColor: isActive
+                    ? themeContextData.themeStyle.body
+                    : themeContextData.themeStyle.background,
+                  borderBottom: isActive
+                    ? `3px solid ${themeContextData.themeStyle.text}`
+                    : "",
+                  textDecoration: "none",
+                  color: themeContextData.themeStyle.text,
+                  padding: 10,
+                  borderRadius: 3,
+                })}
+                to="/about"
+              >
+                О нас
+              </NavLink>
+            </>
           )}
         </Menu>
       ) : (

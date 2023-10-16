@@ -1,5 +1,6 @@
-import { useAuthContext } from "../../authContext/authContext";
+import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../redux/store/reduxStore";
+import { CustomButton } from "../../shared/customButton/customButton";
 import { RotateCard } from "../../shared/rotateCard/rotate";
 import { ScrollIndicator } from "../../shared/scrollIndicator/scrollIndicator";
 import {
@@ -10,17 +11,14 @@ import { AllFavoriteFilms, CardSize, SectionAccount } from "./styledAccount";
 
 export const Account = () => {
   const themeContextData: InitialContextProps = useThemeContext();
-  const authData = useAuthContext();
-
-  const { Favorite: favorite } = useAppSelector((state) => state);
-
+  const { Favorite: favorite } = useAppSelector((state) => state.films);
+  const { user } = useAppSelector((state) => state.auth);
+  const navigate = useNavigate();
   return (
     <SectionAccount themestyles={themeContextData.themeStyle}>
       <h2>Добро пожаловать в личный кабинет</h2>
-      <p>Тариф: {authData.daysOfPremium} дней премиума</p>
-      <p>Имя: {authData.values.firstName}</p>
-      <p>Фамилия: {authData.values.lastName}</p>
-      <p>Почта: {authData.values.email}</p>
+
+      <p>Почта: {user.email}</p>
       <p>Понравившиеся фильмы</p>
       {favorite.length ? (
         <AllFavoriteFilms themestyles={themeContextData.themeStyle}>
@@ -46,7 +44,15 @@ export const Account = () => {
           ))}
         </AllFavoriteFilms>
       ) : (
-        <p>Список пуст</p>
+        <p style={{ height: "100vh" }}>
+          Список пуст{" "}
+          <CustomButton
+            onClick={() => navigate("/")}
+            themestyles={themeContextData.themeStyle}
+          >
+            Перейти к фильмам
+          </CustomButton>
+        </p>
       )}
       <ScrollIndicator />
     </SectionAccount>

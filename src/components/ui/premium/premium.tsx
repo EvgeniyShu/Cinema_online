@@ -1,5 +1,6 @@
-import { IParallax, Parallax, ParallaxLayer } from "@react-spring/parallax";
 import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { IParallax, Parallax, ParallaxLayer } from "@react-spring/parallax";
 import {
   Background,
   BlackLogo,
@@ -11,7 +12,6 @@ import {
   InitialContextProps,
   useThemeContext,
 } from "../../themeContext/themes";
-import { useNavigate } from "react-router-dom";
 import { CustomButton } from "../../shared/customButton/customButton";
 
 export const Premium = () => {
@@ -69,7 +69,7 @@ export const Premium = () => {
             <Text themestyles={themeContextData.themeStyle}>
               <p>Более 100500 фильмов в хорошем качестве</p>
               <CustomButton
-                onClick={() => navigate("/")}
+                onClick={() => navigate("/premium/films")}
                 themestyles={themeContextData.themeStyle}
               >
                 Перейти
@@ -85,7 +85,7 @@ export const Premium = () => {
             <Text themestyles={themeContextData.themeStyle}>
               <p>Более 100500 сериалов в хорошем качестве</p>
               <CustomButton
-                onClick={() => navigate("/")}
+                onClick={() => navigate("/premium/serials")}
                 themestyles={themeContextData.themeStyle}
               >
                 Перейти
@@ -100,7 +100,7 @@ export const Premium = () => {
             <Text themestyles={themeContextData.themeStyle}>
               <p>Более 100500 ТВ шоу в хорошем качестве</p>
               <CustomButton
-                onClick={() => navigate("/")}
+                onClick={() => navigate("/premium/twshows")}
                 themestyles={themeContextData.themeStyle}
               >
                 Перейти

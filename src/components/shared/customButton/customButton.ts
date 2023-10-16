@@ -21,4 +21,9 @@ export const CustomButton = styled.button<CustomLinkMenuProps>`
   &:hover {
     outline-offset: 2px;
   }
+
+  &:disabled {
+    color: gray;
+    outline: none;
+  }
 `;

@@ -7,7 +7,15 @@ import {
   InitialContextProps,
   useThemeContext,
 } from "../../themeContext/themes";
-import { FooterText, SectionFooter, Wrapper } from "./styledFooter";
+import {
+  Cinema,
+  FooterText,
+  Grid,
+  Line,
+  On,
+  SectionFooter,
+  Wrapper,
+} from "./styledFooter";
 
 export const Footer = () => {
   const themeContextData: InitialContextProps = useThemeContext();
@@ -48,7 +56,13 @@ export const Footer = () => {
             <TwitterIcon fontSize="large" />
           </a>
         </Wrapper>
+
         <FooterText>2023</FooterText>
+        <Grid>
+          <Cinema>CINEMA</Cinema>
+          <On>ON</On>
+          <Line>LIINE</Line>
+        </Grid>
       </SectionFooter>
     </>
   );

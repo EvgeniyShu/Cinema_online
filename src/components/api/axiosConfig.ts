@@ -5,7 +5,9 @@ export const axiosApiInstance = axios.create({
   method: "GET",
   headers: {
     "X-API-KEY": "992d39b4-9cf2-4a5a-b0f2-3c3fa2df9f90",
+
     "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
   },
 });
 
@@ -14,10 +16,8 @@ class Api {
     return await axiosApiInstance
       .get(url, {
         headers: {
-          customHeader:
-            url === "/top" ? "FetchTopFilms" : "FetchCurrentFilmData",
+          "Access-Control-Allow-Origin": "*",
         },
-        params,
       })
       .then(this.handleResponse)
       .catch(this.handleError);

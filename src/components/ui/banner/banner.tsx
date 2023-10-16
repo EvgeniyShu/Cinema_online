@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../../redux/store/reduxStore";
 import {
+  InitialContextProps,
+  useThemeContext,
+} from "../../themeContext/themes";
+import {
   BunnerC,
   BunnerFilmImg,
   FilmImgList,
@@ -9,26 +13,17 @@ import {
   Window,
 } from "./styledBanner";
 
-import {
-  InitialContextProps,
-  useThemeContext,
-} from "../../themeContext/themes";
-
 export const Banner = () => {
   const themeContextData: InitialContextProps = useThemeContext();
 
-  const {
-    BannerFilmData: films,
-    error,
-    loading,
-  } = useAppSelector((state) => state);
+  const { BannerFilmData: films } = useAppSelector((state) => state.films);
 
   const handleMouseEnter = (event: any) => {
     event.target.style.height = "300px";
     event.target.style.width = "200px";
 
     const [img] = films.filter(
-      (item) => item.filmId === Number(event.target.id)
+      (item) => item.kinopoiskId === Number(event.target.id)
     );
     const bg = document.getElementById("background");
 
@@ -67,10 +62,10 @@ export const Banner = () => {
         </LeftScrollButton>
         <Window id="scroll">
           {films.map((item) => (
-            <Link key={item.filmId} to={`/film/${item.filmId}`}>
+            <Link key={item.kinopoiskId} to={`/film/${item.kinopoiskId}`}>
               <BunnerFilmImg
                 loading="lazy"
-                id={String(item.filmId)}
+                id={String(item.kinopoiskId)}
                 src={item.posterUrlPreview}
                 alt={item.posterUrlPreview}
                 onMouseEnter={handleMouseEnter}

@@ -1,20 +1,22 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import CircularProgress from "@mui/material/CircularProgress/CircularProgress";
 import { AppDispatch, useAppSelector } from "../../redux/store/reduxStore";
-import { personData } from "../../redux/reducers/reduxReducers";
+import { personData } from "../../redux/reducers/personReducer";
 import {
   InitialContextProps,
   useThemeContext,
 } from "../../themeContext/themes";
 import {
   Film,
+  Grid,
   PersonImg,
   PersonText,
+  Rate,
   SectionPeron,
   Wrapper,
 } from "./styledPerson";
-import CircularProgress from "@mui/material/CircularProgress/CircularProgress";
 import { CustomButton } from "../../shared/customButton/customButton";
 
 export const Person = () => {
@@ -27,18 +29,18 @@ export const Person = () => {
     dispatch(personData(Number(params.id)));
   }, []);
 
-  const { Person, error, loading } = useAppSelector((state) => state);
+  const { Person, error, loading } = useAppSelector((state) => state.person);
   const [person] = Person;
   const [active, setActive] = useState(false);
 
   if (loading) {
     return (
       <div style={{ padding: 200 }}>
-        <CircularProgress color="secondary" /> Загрузка...
+        <CircularProgress color="secondary" />{" "}
+        <p>Загрузка данных с сервера...</p>
       </div>
     );
   }
-  console.log(person);
 
   return (
     <SectionPeron themestyles={themeContextData.themeStyle}>
@@ -48,7 +50,6 @@ export const Person = () => {
         <>
           <Wrapper>
             <PersonImg src={person?.posterUrl} alt={person?.nameEn} />
-
             <PersonText>
               <p>Имя: {person?.nameRu}</p>
               <p>Возраст: {person?.age}</p>
@@ -78,12 +79,18 @@ export const Person = () => {
             </CustomButton>
           )}
           {active ? (
-            <div>
-              {person?.films.map((item) => {
+            <Grid>
+              {person?.films.map((item, index) => {
                 return (
-                  <Film key={item.filmId + item.professionKey}>
-                    <p style={{ width: "80%" }}>
-                      {item.nameRu} {item.description},{item.professionKey}
+                  <Film
+                    themestyles={themeContextData.themeStyle}
+                    key={index + item.filmId + item.professionKey}
+                  >
+                    <Rate id="rate" rate={Number(item.rating)}>
+                      {item.rating}
+                    </Rate>
+                    <p>
+                      {item.nameRu} {item.description}, {item.professionKey}
                     </p>
                     <CustomButton
                       themestyles={themeContextData.themeStyle}
@@ -95,7 +102,7 @@ export const Person = () => {
                   </Film>
                 );
               })}
-            </div>
+            </Grid>
           ) : (
             <div></div>
           )}
