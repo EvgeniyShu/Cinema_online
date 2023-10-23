@@ -58,6 +58,10 @@ export const SignInForm = styled.form<SignInFormProps>`
   top: 55%;
   left: 50%;
   transform: translate(-50%, -50%) scale(1);
+
+  @media (width<650px) {
+    width: 80vw;
+  }
 `;
 
 export const SignInLabel = styled.label<SignInLabelProps>`
@@ -90,4 +94,9 @@ export const ButtonWrapper = styled.div`
   right: 30px;
   display: flex;
   gap: 20px;
+
+  @media (width<650px) {
+    top: 6px;
+    right: 10px;
+  }
 `;

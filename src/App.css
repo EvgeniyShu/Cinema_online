@@ -1,9 +1,9 @@
 .container {
   padding: 0;
   max-width: 1920px;
+  min-width: 300px;
   margin: 0 auto;
   width: 100vw;
-  overflow: hidden;
   font-family: "Pacifico", cursive;
   font-size: 32;
   background-color: black;

@@ -49,7 +49,7 @@ export default function App() {
             <Route path="/" element={<Layout />}>
               <Route index element={<HelloPage />} />
               <Route path="film/:id" element={<CurrentFilm />} />
-              <Route path="login" element={<SignUp />} />
+              <Route path="signup" element={<SignUp />} />
               <Route path="find/:search" element={<Find />} />
               <Route path="find" element={<FindPage />} />
               <Route path="about" element={<About />} />

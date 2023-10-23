@@ -5,7 +5,11 @@ interface HelloPageSectionProps {
   themestyles: Theme;
 }
 
-interface FilmOfferProps {
+interface filterButtonProps {
+  themestyles: Theme;
+}
+
+interface StickyProps {
   themestyles: Theme;
 }
 
@@ -21,95 +25,71 @@ export const HelloPageSection = styled.div<HelloPageSectionProps>`
 `;
 
 export const BannerWrap = styled.div`
-  background-color: #000;
   width: 100%;
-  height: 70vh;
+  height: 75vh;
   box-sizing: border-box;
-`;
-
-export const FilmOffer = styled.div<FilmOfferProps>`
-  margin-top: 50px;
-  background-color: ${({ themestyles }) => themestyles.background};
-
-  border-radius: 8px;
-  width: 75vw;
-  min-height: 390px;
-  overflow: hidden;
-
-  ::-webkit-scrollbar {
-    width: 10px;
-  }
-
-  ::-webkit-scrollbar-track {
-    border-radius: 5px;
-    background-color: ${({ themestyles }) => themestyles.background};
-    border: 1px solid ${({ themestyles }) => themestyles.text};
-  }
-
-  ::-webkit-scrollbar-thumb {
-    border-radius: 5px;
-    background-color: ${({ themestyles }) => themestyles.text};
-  }
-
-  ::-webkit-scrollbar-corner {
-    background-color: ${({ themestyles }) => themestyles.text};
-  }
-
-  @media (width < 600px) {
-    min-height: 101vh;
-  }
-`;
-
-export const FilmRecomendations = styled.div`
-  display: flex;
-  gap: 35px;
-  height: 300px;
-  padding: 20px 20px 40px 20px;
-  overflow-x: scroll;
-
-  @media (width < 600px) {
-    height: 100vh;
-    flex-direction: column;
-    padding: 0px;
-    align-items: center;
-    overflow-x: visible;
-    overflow-y: scroll;
-  }
+  margin-bottom: 10px;
 `;
 
 export const AllFilmRecomendations = styled.div`
-  display: grid;
-  grid-gap: 20px;
+  width: 70vw;
   height: 100%;
-  padding: 20px 20px 40px 20px;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(5, 300px);
-
-  @media (width < 1160px) {
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(7, 300px);
-  }
-  @media (width < 880px) {
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(10, 300px);
-  }
-  @media (width < 600px) {
-    grid-template-columns: repeat(1, 1fr);
-    grid-template-rows: repeat(20, 400px);
-  }
+  min-height: 50vh;
+  display: grid;
+  margin-top: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-column-gap: 1rem;
+  grid-row-gap: 2rem;
 `;
 
 export const CardSize = styled.div`
   width: 200px;
   height: 300px;
   position: relative;
+  align-self: center;
+  justify-self: center;
 
-  @media (width < 600px) {
-    width: 250px;
-    height: 400px;
-  }
-  @media (width < 400px) {
+  @media (width < 448px) {
     width: 200px;
-    height: 300px;
+    height: 330px;
   }
+`;
+
+export const FilterButton = styled.button<filterButtonProps>`
+  margin: 0px;
+  background: ${({ themestyles }) => themestyles.background};
+  color: ${({ themestyles }) => themestyles.text};
+  cursor: pointer;
+  padding: 5px;
+  border: 1px solid ${({ themestyles }) => themestyles.text};
+  border-radius: 5px;
+  transition: all 0.1s ease-out;
+
+  &:active {
+    background: ${({ themestyles }) => themestyles.text};
+    color: ${({ themestyles }) => themestyles.background};
+  }
+`;
+
+export const GenresSection = styled.div`
+  width: 75vw;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+`;
+
+export const Sticky = styled.div<StickyProps>`
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 100vw;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: ${({ themestyles }) => themestyles.background};
 `;

@@ -5,10 +5,6 @@ interface SectionHeaderProps {
   theme: Theme;
 }
 
-interface MenuProps {
-  theme: Theme;
-}
-
 interface LogoWrapperProps {
   theme: Theme;
 }
@@ -30,27 +26,6 @@ export const SectionHeader = styled.div<SectionHeaderProps>`
   @media (width < 380px) {
     padding: 10px;
     gap: 5px;
-  }
-`;
-
-export const Menu = styled.div<MenuProps>`
-  width: 100vw;
-  height: 80px;
-  position: absolute;
-  top: 70px;
-  left: 0;
-  z-index: 10;
-  color: ${(props) => props.theme.text};
-  background-color: ${(props) => props.theme.background};
-  display: flex;
-  flex-direction: row;
-  gap: 50px;
-  align-items: center;
-  justify-content: center;
-  @media (width < 640px) {
-    flex-direction: column;
-    height: 100vh;
-    background-color: ${(props) => props.theme.background};
   }
 `;
 

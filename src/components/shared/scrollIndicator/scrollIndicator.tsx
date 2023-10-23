@@ -1,35 +1,24 @@
-import { useEffect, useState } from "react";
-import { ProgressBar, ProgressContainer } from "./styledScrollIndicator";
+import { motion, useScroll, useSpring } from "framer-motion";
 import {
   InitialContextProps,
   useThemeContext,
 } from "../../themeContext/themes";
+import "./scrollIndicator.css";
 
 export const ScrollIndicator = () => {
   const themeContextData: InitialContextProps = useThemeContext();
-  const [scroll, setScroll] = useState(0);
 
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-  const handleScroll = () => {
-    setScroll(
-      (window.scrollY /
-        (document.documentElement.scrollHeight -
-          document.documentElement.clientHeight)) *
-        100
-    );
-  };
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001,
+  });
 
   return (
-    <ProgressContainer theme={themeContextData.themeStyle}>
-      <ProgressBar
-        theme={themeContextData.themeStyle}
-        width={scroll}
-      ></ProgressBar>
-    </ProgressContainer>
+    <motion.div
+      className="progress-bar"
+      style={{ scaleX, backgroundColor: themeContextData.themeStyle.color }}
+    />
   );
 };

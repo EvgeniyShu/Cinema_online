@@ -8,45 +8,33 @@ interface SectionFindProps {
 export const SectionFind = styled.div<SectionFindProps>`
   width: 100vw;
   height: 100%;
-  padding: 20px 0;
-
+  padding: 10px 20px;
   font-size: ${({ themestyles }) => themestyles.fontSize};
   background: ${({ themestyles }) => themestyles.background};
   color: ${({ themestyles }) => themestyles.text};
   display: flex;
-  align-items: center;
-  justify-content: center;
   flex-direction: column;
+  align-items: center;
 `;
 
 export const SectionFindWrapper = styled.div`
-  width: 90vw;
-  height: 90%;
+  width: calc(100vw - 40px);
+  height: 100%;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(5, 400px);
-  grid-gap: 20px;
-  margin-bottom: 20px;
-  @media (width < 1000px) {
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(7, 400px);
-  }
-  @media (width < 880px) {
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(10, 50vh);
-  }
-  @media (width < 580px) {
-    grid-template-columns: repeat(1, 1fr);
-    grid-template-rows: repeat(20, 50vh);
-  }
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-column-gap: 1rem;
+  grid-row-gap: 2rem;
 `;
 
-export const SectionFindImg = styled.img`
-  display: flex;
-  width: 100%;
-  height: 100%;
-  border-radius: 8px;
-  
-  
+export const SectionFindImg = styled.div`
+  width: 200px;
+  height: 300px;
+  position: relative;
+  align-self: center;
+  justify-self: center;
+
+  @media (width < 448px) {
+    width: 200px;
+    height: 330px;
   }
 `;

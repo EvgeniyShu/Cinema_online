@@ -10,9 +10,8 @@ import {
   InitialContextProps,
   useThemeContext,
 } from "../../themeContext/themes";
-import { SectionFind, SectionFindWrapper } from "./styledFind";
+import { SectionFind, SectionFindImg, SectionFindWrapper } from "./styledFind";
 import { RotateCard } from "../../shared/rotateCard/rotate";
-import { ScrollIndicator } from "../../shared/scrollIndicator/scrollIndicator";
 
 export const Find = () => {
   const themeContextData: InitialContextProps = useThemeContext();
@@ -50,16 +49,11 @@ export const Find = () => {
         </p>
       ) : (
         <>
-          <div
-            style={{
-              margin: "10px auto",
-            }}
-          >
-            <p>Поиск по запросу: {find}</p>
-          </div>
+          <p>Поиск по запросу: {find}</p>
+
           <SectionFindWrapper>
             {searchResult.map((item) => (
-              <div key={item.kinopoiskId} style={{ position: "relative" }}>
+              <SectionFindImg key={item.kinopoiskId}>
                 <RotateCard
                   backgroundImg={item.posterUrl}
                   id={item.kinopoiskId}
@@ -67,10 +61,9 @@ export const Find = () => {
                   rating={item.ratingKinopoisk}
                   choise={select === "person" ? "person" : "film"}
                 />
-              </div>
+              </SectionFindImg>
             ))}
           </SectionFindWrapper>
-          <ScrollIndicator />
 
           <Pagination
             count={pages}
@@ -79,6 +72,7 @@ export const Find = () => {
             color="standard"
             page={currentPage}
             onChange={handleChange}
+            style={{ marginTop: 20 }}
             sx={{
               bgcolor: themeContextData.themeStyle.body,
             }}

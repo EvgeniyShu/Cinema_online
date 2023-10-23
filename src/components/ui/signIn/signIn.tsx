@@ -226,7 +226,7 @@ export const SignIn = () => {
         </CustomButton>
 
         <NavLink
-          to="/login"
+          to="/signup"
           onClick={() => authContext.notVisible()}
           style={{
             color:

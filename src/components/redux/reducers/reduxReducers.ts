@@ -95,15 +95,13 @@ export const recomendetFilmData = createAsyncThunk(
   "films/fetchRecomendetFilms",
   async (id: number, { dispatch, rejectWithValue }) => {
     try {
-      const result: any = await Api.fetchData(
+      const originalPromiseResult: any = await Api.fetchData(
         `v2.2/films/collections?type=TOP_POPULAR_MOVIES&page=${id}`
       );
-      dispatch(
-        fetchRecomendetFilms({
-          film: result.dataArray.items,
-          allPages: result.dataArray.totalPages,
-        })
-      );
+      return {
+        film: originalPromiseResult.dataArray.items,
+        allPages: originalPromiseResult.dataArray.totalPages,
+      };
     } catch (error) {
       const err = error as AxiosError;
       return rejectWithValue(err.message);
@@ -165,13 +163,6 @@ export const filmSlice = createSlice({
     },
     fetchPremieresFilms: (state, action: PayloadAction<Array<PremierFilm>>) => {
       state.premieresFilm = action.payload;
-    },
-    fetchRecomendetFilms: (
-      state,
-      action: PayloadAction<{ film: Array<RecomendetFilm>; allPages: number }>
-    ) => {
-      state.recomendetFilm.films = action.payload.film;
-      state.recomendetFilm.pagesCount = action.payload.allPages;
     },
 
     fetchCurrentFilm: (state, action: PayloadAction<currentFilmProps>) => {
@@ -288,7 +279,9 @@ export const filmSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(recomendetFilmData.fulfilled, (state) => {
+      .addCase(recomendetFilmData.fulfilled, (state, action) => {
+        state.recomendetFilm.films = action.payload.film;
+        state.recomendetFilm.pagesCount = action.payload.allPages;
         state.loading = false;
       })
       .addCase(recomendetFilmData.rejected, (state, action) => {
@@ -306,7 +299,7 @@ export const {
   fetchSimilarFilm,
   fetchPosterOfFilm,
   fetchPremieresFilms,
-  fetchRecomendetFilms,
+
   isFavorite,
   fetchFavoritesFromFirestore,
 } = filmSlice.actions;

@@ -12,8 +12,22 @@ https://kinopoiskapiunofficial.tech/
 
 ### React-router-dom
 
-### Redux
+### Redux && redux toolkit
 
 ### Formik && yup
 
 ### material-ui
+
+### react-spring
+
+#### react-spring/parallax
+
+### framer-motion
+
+## Авторизация и хранение данных осуществляется через FireBase
+
+### Authentication
+
+#### Email/Password && Google
+
+### Firebase
