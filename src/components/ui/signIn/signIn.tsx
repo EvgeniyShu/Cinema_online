@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import {
+  browserSessionPersistence,
   onAuthStateChanged,
+  setPersistence,
   signInWithEmailAndPassword,
   signInWithPopup,
 } from "firebase/auth";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import GoogleIcon from "@mui/icons-material/Google";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store/reduxStore";
 import { setUser } from "../../redux/reducers/authReducer";
@@ -53,10 +54,12 @@ export const SignIn = () => {
 
   useEffect(() => {
     checkValidForm();
+
     onAuthStateChanged(auth, async (data) => {
       if (data) {
         const currentUser = await getCurrentUser(data.email);
         const userId = currentUser ? currentUser[0].id : "";
+
         dispatch(
           setUser({
             email: data.email,
@@ -79,6 +82,14 @@ export const SignIn = () => {
 
   const handleLogin = (event: React.MouseEvent<Element, MouseEvent>) => {
     event.preventDefault();
+    setPersistence(auth, browserSessionPersistence)
+      .then(() => {
+        return;
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });
 
     signInWithEmailAndPassword(auth, email, password)
       .then(async (userCredential) => {
@@ -109,18 +120,26 @@ export const SignIn = () => {
     event: React.MouseEvent<Element, MouseEvent>
   ) => {
     event.preventDefault();
-    try {
-      await signInWithPopup(auth, googleProvider);
-      console.log(auth.currentUser);
-      const currentUser = auth.currentUser;
-      addNewUserToFirestore(
-        currentUser ? currentUser.displayName : "google",
-        "Google account",
-        currentUser ? currentUser?.email : ""
-      );
-    } catch (err) {
-      console.error(err);
-    }
+
+    setPersistence(auth, browserSessionPersistence)
+      .then(async () => {
+        try {
+          await signInWithPopup(auth, googleProvider);
+          const currentUser = auth.currentUser;
+          addNewUserToFirestore(
+            currentUser ? currentUser.displayName : "google",
+            "Google account",
+            currentUser ? currentUser?.email : ""
+          );
+        } catch (err) {
+          console.error(err);
+        }
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

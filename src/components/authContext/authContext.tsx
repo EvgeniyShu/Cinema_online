@@ -51,5 +51,5 @@ export const AuthContextProvider: FC<AuthContextProviderProps> = ({
 
 export const PrivateRoute: FC<PrivateRouteProps> = ({ children }) => {
   const authContextData = useAuthContext();
-  return authContextData.userAuth ? children : <Navigate to="/login" />;
+  return authContextData.userAuth ? children : <Navigate to="/signup" />;
 };

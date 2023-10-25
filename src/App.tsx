@@ -48,7 +48,14 @@ export default function App() {
           <Routes location={location} key={location.pathname}>
             <Route path="/" element={<Layout />}>
               <Route index element={<HelloPage />} />
-              <Route path="film/:id" element={<CurrentFilm />} />
+              <Route
+                path="film/:id"
+                element={
+                  <PrivateRoute>
+                    <CurrentFilm />
+                  </PrivateRoute>
+                }
+              />
               <Route path="signup" element={<SignUp />} />
               <Route path="find/:search" element={<Find />} />
               <Route path="find" element={<FindPage />} />
