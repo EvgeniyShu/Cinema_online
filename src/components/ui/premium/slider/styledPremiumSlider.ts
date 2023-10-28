@@ -11,7 +11,7 @@ export const SectionPremiumSlider = styled.div<SectionPremiumSliderProps>`
   color: orange;
   background-color: ${({ themestyles }) => themestyles.background};
   @media (width < 740px) {
-    padding-bottom: 50px;
+    height: 100%;
   }
 `;
 
@@ -30,7 +30,7 @@ export const FilmImg = styled.img`
   }
   @media (width < 740px) {
     height: 50vh;
-    width: 40vw;
+    width: 60vw;
   }
   @media (width < 600px) {
     width: 80%;
@@ -50,6 +50,7 @@ export const Wrapper = styled.div`
   @media (width < 740px) {
     flex-direction: column;
     align-items: center;
+    height: 100%;
   }
 `;
 
@@ -84,9 +85,12 @@ export const ButtonsWrap = styled.div`
   height: 150px;
   width: 100%;
   align-items: flex-start;
-  @media (width < 660px) {
+  @media (width < 740px) {
+    padding-top: 20px;
+    position: relative;
     bottom: 10px;
     left: 0px;
     flex-direction: row;
+    height: 50px;
   }
 `;

@@ -57,8 +57,14 @@ export default function App() {
                 }
               />
               <Route path="signup" element={<SignUp />} />
-              <Route path="find/:search" element={<Find />} />
-              <Route path="find" element={<FindPage />} />
+              <Route
+                path="find/:search"
+                element={
+                  <PrivateRoute>
+                    <Find />
+                  </PrivateRoute>
+                }
+              />
               <Route path="about" element={<About />} />
               <Route path="person/:id" element={<Person />} />
               <Route
@@ -69,7 +75,14 @@ export default function App() {
                   </PrivateRoute>
                 }
               ></Route>
-              <Route path="premium/:search" element={<PremiumSlider />}></Route>
+              <Route
+                path="premium/:search"
+                element={
+                  <PrivateRoute>
+                    <PremiumSlider />
+                  </PrivateRoute>
+                }
+              ></Route>
               <Route
                 path="account"
                 element={
